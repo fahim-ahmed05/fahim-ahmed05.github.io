@@ -1,2 +1,1 @@
-# fahim-ahmed05.github.io
-Poor man's link tree 🙂
+Color palette from https://github.com/catppuccin
