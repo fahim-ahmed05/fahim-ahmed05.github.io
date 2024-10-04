@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -20,25 +20,31 @@
       flex-direction: column;
       justify-content: center;
       height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     .content {
       max-width: 650px;
       margin: 0 auto;
       padding: 20px;
+      width: 100%;
     }
 
     .profile-pic {
-      width: 150px;
-      height: 150px;
+      width: 25vw;
+      height: 25vw;
+      max-width: 150px;
+      max-height: 150px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     h1 {
       font-size: 2.5em;
       color: #ef8261;
+      margin: 10px 0;
     }
 
     p {
@@ -52,10 +58,12 @@
       justify-content: center;
       gap: 20px;
       margin-top: 40px;
+      flex-wrap: wrap;
     }
 
     .button {
-      width: 125px;
+      width: 30%;
+      max-width: 125px;
       height: 50px;
       font-size: 1.2em;
       background-color: transparent;
@@ -77,30 +85,55 @@
     .button:focus {
       outline: none;
     }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      p {
+        font-size: 1em;
+      }
+
+      .button {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      p {
+        font-size: 0.9em;
+      }
+
+      .button {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 
 <body>
 
   <div class="content">
-    <!-- Profile Picture -->
     <img class="profile-pic" src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Fahim Ahmed">
 
     <h1>Fahim Ahmed</h1>
     <p>CSE Student, North South University</p>
 
     <div class="button-group">
-      <!-- GitHub Button -->
       <button class="button" onclick="window.open('https://github.com/fahim-ahmed05', '_blank');">
         GitHub
       </button>
 
-      <!-- Messenger Button -->
-      <button class="button" onclick="window.open('https://m.me/fahim.ahmed005?hash=AbZR1Ap_NiFT3hMG&source=qr_link_share', '_blank');">
+      <button class="button"
+        onclick="window.open('https://m.me/fahim.ahmed005?hash=AbZR1Ap_NiFT3hMG&source=qr_link_share', '_blank');">
         Messenger
       </button>
 
-      <!-- Medium Button -->
       <button class="button" onclick="window.open('https://fah1m.medium.com/', '_blank');">
         Medium
       </button>
