@@ -1,158 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fahim Ahmed</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahim Ahmed</title>
 
-  <!-- Favicon as emoji -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🎯</text></svg>">
+    <!-- Favicon as emoji -->
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='80'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600;700&family=Fira+Mono&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600;700&family=Fira+Mono&display=swap"
+        rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #282828;
-      --text: #ebdbb2;
-      --orange: #fe8019;
-      --green: #b8bb26;
-      --blue: #83a598;
-      --purple: #d3869b;
-    }
+    <style>
+        :root {
+            --bg: #282828;
+            --text: #ebdbb2;
+            --orange: #fe8019;
+            --green: #b8bb26;
+            --blue: #83a598;
+            --purple: #d3869b;
+        }
 
-    body {
-      margin: 0;
-      padding: 2rem;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      max-width: 900px;
-      margin-inline: auto;
-      line-height: 1.7;
-      font-weight: 400;
-    }
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            max-width: 900px;
+            margin-inline: auto;
+            line-height: 1.7;
+            font-weight: 400;
+        }
 
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    img.profile {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
+        img.profile {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
 
-    h1, h2, h3 {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
+        h1,
+        h2,
+        h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-    }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
 
-    h2 {
-      font-size: 1.6rem;
-    }
+        h2 {
+            font-size: 1.6rem;
+        }
 
-    h3 {
-      font-size: 1.2rem;
-      color: var(--orange);
-    }
+        h3 {
+            font-size: 1.2rem;
+            color: var(--orange);
+        }
 
-    ul {
-      padding-left: 1.2rem;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-    }
+        ul {
+            padding-left: 1.2rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
 
-    a {
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 500;
-    }
+        a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
+        a:hover {
+            text-decoration: underline;
+        }
 
-    .social a {
-      color: var(--green);
-    }
+        .social a {
+            color: var(--green);
+        }
 
-    .more-link {
-      color: var(--purple);
-      font-weight: 500;
-    }
+        .more-link {
+            color: var(--purple);
+            font-weight: 500;
+        }
 
-    .email {
-      font-family: 'Fira Mono', monospace;
-      font-style: normal;
-      font-weight: 400;
-    }
+        .email {
+            font-family: 'Fira Mono', monospace;
+            font-style: normal;
+            font-weight: 400;
+        }
 
-    section {
-      margin-bottom: 2rem;
-      padding-inline: 1rem;
-    }
+        section {
+            margin-bottom: 2rem;
+            padding-inline: 1rem;
+        }
 
-    @media screen and (max-width: 600px) {
-      body {
-        padding: 1.5rem 1rem;
-      }
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 1.5rem 1rem;
+            }
 
-      img.profile {
-        width: 120px;
-        height: 120px;
-      }
-    }
-  </style>
+            img.profile {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile" />
-    <h1>Fahim Ahmed</h1>
-    <p>CSE Student<br>North South University</p>
-    <p class="email">fahim.ahmed1453@gmail.com</p>
-    <p class="social">
-      <a href="https://linkedin.com/in/fahim-ahmed05" target="_blank" rel="noopener noreferrer">Linkedin</a> |
-      <a href="https://github.com/fahim-ahmed05" target="_blank" rel="noopener noreferrer">GitHub</a> |
-      <a href="https://facebook.com/fahim.ahmed905" target="_blank" rel="noopener noreferrer">Facebook</a>
-    </p>
-  </header>
+    <header>
+        <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile" />
+        <h1>Fahim Ahmed</h1>
+        <p>CSE Student<br>North South University</p>
+        <p class="email">fahim.ahmed1453@gmail.com</p>
+        <p class="social">
+            <a href="https://linkedin.com/in/fahim-ahmed05" target="_blank" rel="noopener noreferrer">Linkedin</a> |
+            <a href="https://github.com/fahim-ahmed05" target="_blank" rel="noopener noreferrer">GitHub</a> |
+            <a href="https://facebook.com/fahim.ahmed905" target="_blank" rel="noopener noreferrer">Facebook</a>
+        </p>
+    </header>
 
-  <section>
-    <p>
-      I'm a 3rd-year Computer Science and Engineering student at North South University, currently surviving the chaos of deadlines and debugging. I have a genuine interest in tech and history—basically, I like knowing how things work, whether it's a microprocessor or the Achaemenian Empire. I'm a fast learner (thanks, Stack Overflow), detail-oriented (yes, I will notice that missing semicolon), and not afraid of hard work... unless it’s before my morning coffee.
-    </p>
-  </section>
+    <section>
+        <p>
+            I'm a 3rd-year Computer Science and Engineering student at North South University, currently surviving the
+            chaos of deadlines and debugging. I have a genuine interest in tech and history—basically, I like knowing
+            how things work, whether it's a microprocessor or the Achaemenian Empire. I'm a fast learner (thanks, Stack
+            Overflow), detail-oriented (yes, I will notice that missing semicolon), and not afraid of hard work...
+            unless it’s before my morning coffee.
+        </p>
+    </section>
 
-  <section>
-    <h3>Software Projects</h3>
-    <ul>
-      <li><a href="https://github.com/fahim-ahmed05/koreader-plugin-screenlock" target="_blank" rel="noopener noreferrer">KOReader Plugin: ScreenLock</a></li>
-      <li><a href="https://github.com/fahim-ahmed05/browser-history" target="_blank" rel="noopener noreferrer">Browser History Plugin for Flow Launcher</a></li>
-      <li><a href="https://github.com/fahim-ahmed05/prothomalo-epaper2pdf" target="_blank" rel="noopener noreferrer">Prothom Alo E-Paper to PDF Converter</a></li>
-    </ul>
-    <a href="https://github.com/fahim-ahmed05?tab=repositories" target="_blank" rel="noopener noreferrer" class="more-link">See more...</a>
-  </section>
+    <section>
+        <h3>Software Projects</h3>
+        <ul>
+            <li><a href="https://github.com/fahim-ahmed05/koreader-plugin-screenlock" target="_blank"
+                    rel="noopener noreferrer">KOReader Plugin: ScreenLock</a></li>
+            <li><a href="https://github.com/fahim-ahmed05/browser-history" target="_blank"
+                    rel="noopener noreferrer">Browser History Plugin for Flow Launcher</a></li>
+            <li><a href="https://github.com/fahim-ahmed05/prothomalo-epaper2pdf" target="_blank"
+                    rel="noopener noreferrer">Prothom Alo E-Paper to PDF Converter</a></li>
+        </ul>
+        <a href="https://github.com/fahim-ahmed05?tab=repositories" target="_blank" rel="noopener noreferrer"
+            class="more-link">See more...</a>
+    </section>
 
-  <section>
-    <h3>Blog Posts</h3>
-    <ul>
-      <li><a href="https://medium.com/@fahim-ahmed/github-commit-signing-on-windows-a-quick-guide-eca465172298" target="_blank" rel="noopener noreferrer">GitHub Commit Signing on Windows</a></li>
-      <li><a href="https://medium.com/@fahim-ahmed/english-to-bengali-dictionary-for-kobo-kindle-3d04fcd59bc0" target="_blank" rel="noopener noreferrer">English to Bengali Dictionary for Kobo & Kindle</a></li>
-      <li><a href="https://medium.com/@fahim-ahmed/schedule-dark-light-mode-switch-on-windows-d8a68f5ee49e" target="_blank" rel="noopener noreferrer">Schedule Dark/Light Mode Switch on Windows</a></li>
-    </ul>
-    <a href="https://medium.com/@fahim-ahmed" target="_blank" rel="noopener noreferrer" class="more-link">See more...</a>
-  </section>
+    <section>
+        <h3>Blog Posts</h3>
+        <ul>
+            <li><a href="https://medium.com/@fahim-ahmed/github-commit-signing-on-windows-a-quick-guide-eca465172298"
+                    target="_blank" rel="noopener noreferrer">GitHub Commit Signing on Windows</a></li>
+            <li><a href="https://medium.com/@fahim-ahmed/english-to-bengali-dictionary-for-kobo-kindle-3d04fcd59bc0"
+                    target="_blank" rel="noopener noreferrer">English to Bengali Dictionary for Kobo & Kindle</a></li>
+            <li><a href="https://medium.com/@fahim-ahmed/schedule-dark-light-mode-switch-on-windows-d8a68f5ee49e"
+                    target="_blank" rel="noopener noreferrer">Schedule Dark/Light Mode Switch on Windows</a></li>
+        </ul>
+        <a href="https://medium.com/@fahim-ahmed" target="_blank" rel="noopener noreferrer" class="more-link">See
+            more...</a>
+    </section>
 </body>
+
 </html>
