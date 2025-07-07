@@ -174,80 +174,105 @@
         footer p {
             margin: 0.3rem 0;
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main {
+            animation: fadeInUp 0.6s ease-out;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 
 <body>
-    <header>
-        <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" loading="lazy"
-            class="profile" loading="lazy" />
-        <h1>Fahim Ahmed</h1>
-        <p>CSE Student<br>North South University</p>
-        <a href="mailto:fahim.ahmed1453@gmail.com" class="email">fahim.ahmed1453@gmail.com</a>
-        <p class="social">
-            <a href="https://linkedin.com/in/fahim-ahmed05" target="_blank" rel="noopener noreferrer">Linkedin</a> |
-            <a href="https://fahim-ahmed05.github.io/links" target="_blank" rel="noopener noreferrer">Contact Me</a> |
-            <a href="https://github.com/fahim-ahmed05" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </p>
-    </header>
+    <main>
+        <header>
+            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" loading="lazy"
+                class="profile" loading="lazy" />
+            <h1>Fahim Ahmed</h1>
+            <p>CSE Student<br>North South University</p>
+            <a href="mailto:fahim.ahmed1453@gmail.com" class="email">fahim.ahmed1453@gmail.com</a>
+            <p class="social">
+                <a href="https://linkedin.com/in/fahim-ahmed05" target="_blank" rel="noopener noreferrer">Linkedin</a> |
+                <a href="https://fahim-ahmed05.github.io/links" target="_blank" rel="noopener noreferrer">Contact Me</a>
+                |
+                <a href="https://github.com/fahim-ahmed05" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </p>
+        </header>
 
-    <section>
-        <p>
-            Hi, I'm a detail-oriented, coffee-chugging procrastination machine. A part-time CSE student and full-time
-            Wikipedia explorer, my interests change every two seconds but somehow, they always circle back to tech and
-            history. I'm a fast learner and the kind of person who can't rest until the problem is solved.
-        </p>
-    </section>
+        <section>
+            <p>
+                Hi, I'm a detail-oriented, coffee-chugging procrastination machine. A part-time CSE student and
+                full-time
+                Wikipedia explorer, my interests change every two seconds but somehow, they always circle back to tech
+                and
+                history. I'm a fast learner and the kind of person who can't rest until the problem is solved.
+            </p>
+        </section>
 
-    <section>
-        <h3>Projects</h3>
-        <ul>
-            <li><a href="https://github.com/fahim-ahmed05/koreader-plugin-screenlock" target="_blank"
-                    rel="noopener noreferrer">KOReader Plugin: ScreenLock</a></li>
-            <li><a href="https://github.com/fahim-ahmed05/browser-history" target="_blank"
-                    rel="noopener noreferrer">Browser History Plugin for Flow Launcher</a></li>
-            <li><a href="https://github.com/fahim-ahmed05/prothomalo-epaper2pdf" target="_blank"
-                    rel="noopener noreferrer">Prothom Alo E-Paper to PDF Converter</a></li>
-        </ul>
-        <a href="https://github.com/fahim-ahmed05?tab=repositories" target="_blank" rel="noopener noreferrer"
-            class="more-link">See more...</a>
-    </section>
+        <section>
+            <h3>Projects</h3>
+            <ul>
+                <li><a href="https://github.com/fahim-ahmed05/koreader-plugin-screenlock" target="_blank"
+                        rel="noopener noreferrer">KOReader Plugin: ScreenLock</a></li>
+                <li><a href="https://github.com/fahim-ahmed05/browser-history" target="_blank"
+                        rel="noopener noreferrer">Browser History Plugin for Flow Launcher</a></li>
+                <li><a href="https://github.com/fahim-ahmed05/prothomalo-epaper2pdf" target="_blank"
+                        rel="noopener noreferrer">Prothom Alo E-Paper to PDF Converter</a></li>
+            </ul>
+            <a href="https://github.com/fahim-ahmed05?tab=repositories" target="_blank" rel="noopener noreferrer"
+                class="more-link">See more...</a>
+        </section>
 
-    <section>
-        <h3>Blogs</h3>
-        <ul>
-            <li><a href="https://medium.com/@fahim-ahmed/github-commit-signing-on-windows-a-quick-guide-eca465172298"
-                    target="_blank" rel="noopener noreferrer">GitHub Commit Signing on Windows</a></li>
-            <li><a href="https://medium.com/@fahim-ahmed/english-to-bengali-dictionary-for-kobo-kindle-3d04fcd59bc0"
-                    target="_blank" rel="noopener noreferrer">English to Bengali Dictionary for Kobo & Kindle</a></li>
-            <li><a href="https://medium.com/@fahim-ahmed/schedule-dark-light-mode-switch-on-windows-d8a68f5ee49e"
-                    target="_blank" rel="noopener noreferrer">Schedule Dark/Light Mode Switch on Windows</a></li>
-        </ul>
-        <a href="https://medium.com/@fahim-ahmed" target="_blank" rel="noopener noreferrer" class="more-link">See
-            more...</a>
-    </section>
+        <section>
+            <h3>Blogs</h3>
+            <ul>
+                <li><a href="https://medium.com/@fahim-ahmed/github-commit-signing-on-windows-a-quick-guide-eca465172298"
+                        target="_blank" rel="noopener noreferrer">GitHub Commit Signing on Windows</a></li>
+                <li><a href="https://medium.com/@fahim-ahmed/english-to-bengali-dictionary-for-kobo-kindle-3d04fcd59bc0"
+                        target="_blank" rel="noopener noreferrer">English to Bengali Dictionary for Kobo & Kindle</a>
+                </li>
+                <li><a href="https://medium.com/@fahim-ahmed/schedule-dark-light-mode-switch-on-windows-d8a68f5ee49e"
+                        target="_blank" rel="noopener noreferrer">Schedule Dark/Light Mode Switch on Windows</a></li>
+            </ul>
+            <a href="https://medium.com/@fahim-ahmed" target="_blank" rel="noopener noreferrer" class="more-link">See
+                more...</a>
+        </section>
 
-    <section>
-        <h3>Photos</h3>
-        <div class="photo-grid">
-            <a href="https://pixelfed.social/p/fahim-ahmed/832606237034559814" target="_blank">
-                <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/pRKmWIrlN1LX/HGMwQjIaFqQXC9CiNRVNH7UzmDinXNJEjY1bg3sH.jpg"
-                    alt="Photo 1" loading="lazy" /></a>
-            <a href="https://pixelfed.social/p/fahim-ahmed/831875849050703589" target="_blank">
-                <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/oXPcelOqXech/F2H6zDAUK2rTSXNUnHbJTE7xK3zL4dET8A6EqhnH.jpg"
-                    alt="Photo 2" loading="lazy" /></a>
-            <a href="https://pixelfed.social/p/fahim-ahmed/831002239004653159" target="_blank">
-                <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/ae9zsx1KOJhm/ZTQPLnFKVlFKFXVfFxXLQemiCHSdMJxtG754Z5gk.jpg"
-                    alt="Photo 3" loading="lazy" /></a>
-        </div>
-        <a href="https://portfolio.pixelfed.social/fahim-ahmed" target="_blank" rel="noopener noreferrer"
-            class="more-link">See more...</a>
-    </section>
+        <section>
+            <h3>Photos</h3>
+            <div class="photo-grid">
+                <a href="https://pixelfed.social/p/fahim-ahmed/832606237034559814" target="_blank">
+                    <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/pRKmWIrlN1LX/HGMwQjIaFqQXC9CiNRVNH7UzmDinXNJEjY1bg3sH.jpg"
+                        alt="Photo 1" loading="lazy" /></a>
+                <a href="https://pixelfed.social/p/fahim-ahmed/831875849050703589" target="_blank">
+                    <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/oXPcelOqXech/F2H6zDAUK2rTSXNUnHbJTE7xK3zL4dET8A6EqhnH.jpg"
+                        alt="Photo 2" loading="lazy" /></a>
+                <a href="https://pixelfed.social/p/fahim-ahmed/831002239004653159" target="_blank">
+                    <img src="https://pxscdn.com/public/m/_v2/827947899152802964/208209554-471e9e/ae9zsx1KOJhm/ZTQPLnFKVlFKFXVfFxXLQemiCHSdMJxtG754Z5gk.jpg"
+                        alt="Photo 3" loading="lazy" /></a>
+            </div>
+            <a href="https://portfolio.pixelfed.social/fahim-ahmed" target="_blank" rel="noopener noreferrer"
+                class="more-link">See more...</a>
+        </section>
 
-    <footer>
-        <p>&copy; 2025 Fahim Ahmed</p>
-        <p>Made with 🥐, HTML, CSS & some serious Googling.</p>
-    </footer>
+        <footer>
+            <p>&copy; 2025 Fahim Ahmed</p>
+            <p>Made with 🥐, HTML, CSS & some serious Googling.</p>
+        </footer>
+    </main>
 </body>
 
 </html>
