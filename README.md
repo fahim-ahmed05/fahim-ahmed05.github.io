@@ -2,7 +2,7 @@
 
 This is a simple static website built using basic HTML and CSS. It serves as my personal website where I can share information about myself, my projects, and my interests.
 
-## Theme: Gruvbox
+## Theme: Gruvbox Material
 
 Colors:
 ```css
@@ -17,3 +17,6 @@ Colors:
 --yellow: #d8a657;
 --gray:   #928374;
 ```
+
+## Credits
+- [Gruvbox Material](https://github.com/sainnhe/gruvbox-material)
