@@ -119,20 +119,18 @@
             }
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
         main {
-            animation: fadeInUp 0.6s ease-out;
+            animation: fadeIn 0.6s ease-in both;
             width: 100%;
             display: flex;
             flex-direction: column;
