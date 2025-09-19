@@ -10,192 +10,15 @@
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='80'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
 
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600;700&family=Fira+Mono&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #292828;
-            --text: #d4be98;
-            --orange: #e78a4e;
-            --green: #a9b665;
-            --blue: #83a598;
-            --purple: #d3869b;
-            --aqua: #89b482;
-            --red: #ea6962;
-            --yellow: #d8a657;
-            --gray: #928374;
-        }
-
-        body {
-            margin: 0;
-            padding: 2rem;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            max-width: 900px;
-            margin-inline: auto;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 0rem;
-        }
-
-        img.profile {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 0rem;
-            margin-top: 4rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        h1,
-        h2,
-        h3 {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        h2 {
-            font-size: 1.6rem;
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            color: var(--orange);
-        }
-
-        ul {
-            padding-left: 1.2rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        a {
-            color: var(--blue);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        a:hover {
-            color: var(--yellow);
-        }
-
-        .social a {
-            color: var(--green);
-        }
-
-        .social a:hover {
-            color: var(--yellow);
-        }
-
-        .more-link {
-            color: var(--aqua);
-            font-weight: 500;
-        }
-
-        .more-link:hover {
-            color: var(--yellow);
-        }
-
-        .email {
-            font-family: 'Fira Mono', monospace;
-            font-style: normal;
-            font-weight: 400;
-            color: var(--purple);
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            justify-items: center;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .photo-grid img {
-            width: 100%;
-            max-width: 280px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .photo-grid img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        }
-
-        @media screen and (max-width: 600px) {
-            body {
-                padding: 1.5rem 1rem;
-            }
-
-            img.profile {
-                width: 120px;
-                height: 120px;
-            }
-
-            .photo-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem 1rem 1rem;
-            margin-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        footer p {
-            margin: 0.3rem 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        main {
-            animation: fadeIn 0.6s ease-in both;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <main>
         <header>
-            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" loading="lazy"
-                class="profile" loading="lazy" />
+            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile"
+                loading="lazy" />
             <h1>Fahim Ahmed</h1>
             <p>CSE Student<br>North South University</p>
             <a href="mailto:fahim.ahmed1453@gmail.com" class="email">fahim.ahmed1453@gmail.com</a>
@@ -208,15 +31,19 @@
 
         <section>
             <p>
-                Hi, I'm a detail-oriented, coffee-chugging procrastination machine. A part-time CSE student and
-                full-time
-                Wikipedia explorer, my interests change every two seconds but somehow, they always circle back to tech
-                and
-                history. I'm a fast learner and the kind of person who can't rest until the problem is solved.
+                I'm a detail-driven Computer Science and Engineering student with a passion for technology and history.
+                Fueled
+                by endless cups of coffee and a curious mind, I explore everything from the latest tech trends to deep
+                dives
+                into historical topics, often with a touch of procrastination. A quick learner, I thrive on solving
+                problems and
+                bringing clarity to complex challenges. Whether it's coding or uncovering new insights, I'm always eager
+                to dive
+                deeper and make things work.
             </p>
         </section>
 
-        <section>
+        <section class="align-left">
             <h3>Projects</h3>
             <ul>
                 <li><a href="https://github.com/fahim-ahmed05/koreader-plugin-screenlock" target="_blank"
@@ -230,7 +57,7 @@
                 class="more-link">See more...</a>
         </section>
 
-        <section>
+        <section class="align-left">
             <h3>Blogs</h3>
             <ul>
                 <li><a href="https://medium.com/@fahim-ahmed/github-commit-signing-on-windows-a-quick-guide-eca465172298"
@@ -245,7 +72,7 @@
                 more...</a>
         </section>
 
-        <section>
+        <section class="align-left">
             <h3>Photos</h3>
             <div class="photo-grid">
                 <a href="https://pixelfed.social/p/fahim-ahmed/832606237034559814" target="_blank">
@@ -261,6 +88,15 @@
             <a href="https://portfolio.pixelfed.social/fahim-ahmed" target="_blank" rel="noopener noreferrer"
                 class="more-link">See more...</a>
         </section>
+
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.2rem;">
+            <a class="button" href="https://github.com/fahim-ahmed05" target="_blank" rel="noopener noreferrer">
+                Resume
+            </a>
+            <a class="button" href="https://buymeacoffee.com/fahim.ahmed" target="_blank" rel="noopener noreferrer">
+                Support my work
+            </a>
+        </div>
 
         <footer>
             <p>&copy; 2025 Fahim Ahmed</p>

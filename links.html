@@ -10,140 +10,15 @@
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='80'%3E%F0%9F%94%97%3C/text%3E%3C/svg%3E">
 
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600;700&family=Fira+Mono&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #292828;
-            --text: #d4be98;
-            --orange: #e78a4e;
-            --green: #a9b665;
-            --blue: #83a598;
-            --purple: #d3869b;
-            --aqua: #89b482;
-            --red: #ea6962;
-            --yellow: #d8a657;
-            --gray: #928374;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
-            min-height: 90vh;
-            line-height: 1.7;
-            text-align: center;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            margin: 1rem 0 1rem;
-            color: var(--text);
-        }
-
-        img.profile {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 0rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .link-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 2rem;
-        }
-
-        .link {
-            background-color: #3c3836;
-            padding: 0.75rem 1rem;
-            text-align: center;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .link:hover {
-            background-color: var(--aqua);
-            color: #1d2021;
-            transform: translateY(-3px) scale(1.03);
-        }
-
-        a {
-            color: var(--blue);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        a:hover {
-            color: var(--yellow);
-        }
-
-        .email {
-            font-family: 'Fira Mono', monospace;
-            font-style: normal;
-            font-weight: 400;
-            color: var(--purple);
-        }
-
-        @media screen and (max-width: 600px) {
-            body {
-                padding: 1.5rem 1rem;
-            }
-
-            img.profile {
-                width: 120px;
-                height: 120px;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        main {
-            animation: fadeIn 0.6s ease-in both;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    </style>
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <main>
         <header>
-            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" loading="lazy"
-                class="profile" loading="lazy" />
+            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile"
+                loading="lazy" />
             <h1>Fahim Ahmed</h1>
             <p>CSE Student<br>North South University</p>
             <a href="mailto:fahim.ahmed1453@gmail.com" class="email">fahim.ahmed1453@gmail.com</a>

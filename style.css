@@ -1,0 +1,226 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500;600;700&family=Fira+Mono&display=swap');
+
+:root {
+    --bg: #292828;
+    --text: #d4be98;
+    --orange: #e78a4e;
+    --green: #a9b665;
+    --blue: #83a598;
+    --purple: #d3869b;
+    --aqua: #89b482;
+    --red: #ea6962;
+    --yellow: #d8a657;
+    --teal: #458588;
+    --grey: #928374;
+    --ash: #3c4048;
+}
+
+body {
+    margin: 0;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    max-width: 900px;
+    margin-inline: auto;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+header {
+    text-align: center;
+}
+
+img.profile {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: var(--orange);
+}
+
+ul {
+    align-content: flex-start;
+    padding-left: 1.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+a:hover {
+    color: var(--yellow);
+}
+
+.social a {
+    color: var(--green);
+}
+
+.social a:hover {
+    color: var(--yellow);
+}
+
+.more-link {
+    color: var(--aqua);
+    font-weight: 500;
+}
+
+.more-link:hover {
+    color: var(--yellow);
+}
+
+.email {
+    font-family: 'Fira Mono', monospace;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--purple);
+}
+
+.button {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--ash);
+    font-weight: 500;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    color: var(--ash);
+    background-color: var(--blue);
+    transform: translateY(-2px);
+}
+
+/* === Photo Grid (index.html only) === */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-items: center;
+    margin: 1.5rem 0;
+}
+
+.photo-grid img {
+    width: 100%;
+    max-width: 280px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-grid img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem 0;
+}
+
+.link {
+    background-color: #3c3836;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.link:hover {
+    background-color: var(--aqua);
+    color: #1d2021;
+    transform: translateY(-3px) scale(1.03);
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--grey);
+}
+
+footer p {
+    margin: 0.3rem 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+main {
+    animation: fadeIn 0.6s ease-in both;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+
+    img.profile {
+        width: 120px;
+        height: 120px;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.align-left {
+    text-align: left;
+    width: 100%;
+    margin: 0 auto;
+}
