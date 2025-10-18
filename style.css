@@ -283,13 +283,8 @@ a:hover {
 
 .link:hover {
     background-color: var(--aqua);
-    color: var(--text);
+    color: #1d2021;
     transform: translateY(-3px) scale(1.03);
-}
-
-/* Ensure good contrast for light theme: tweak hover text color when in light theme */
-.theme-light .link:hover {
-    color: #1d2021; /* dark text on light aqua */
 }
 
 footer {
