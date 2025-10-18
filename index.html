@@ -17,8 +17,16 @@
 <body>
     <main>
         <header>
-            <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile"
-                loading="lazy" />
+            <div class="profile-wrap">
+                <img src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Profile Photo" class="profile"
+                    loading="lazy" />
+                <div class="theme-toggle-wrap">
+                    <button class="theme-toggle" aria-label="Toggle theme">
+                        <span class="icon">🤖</span>
+                        <span class="label" aria-hidden="true">🤖 Device theme</span>
+                    </button>
+                </div>
+            </div>
             <h1>Fahim Ahmed</h1>
             <p>CSE Student<br>North South University</p>
             <a href="mailto:fahim.ahmed1453@gmail.com" class="email">fahim.ahmed1453@gmail.com</a>
@@ -96,7 +104,8 @@
             <p>&copy; 2025 Fahim Ahmed</p>
             <p>Made with 🥐, HTML, CSS & some serious Googling.</p>
         </footer>
-    </main>
-</body>
+        </main>
+    <script src="theme.js" defer></script>
+ </body>
 
 </html>

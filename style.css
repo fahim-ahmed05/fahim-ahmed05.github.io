@@ -16,6 +16,23 @@
     --ash: #3c4048;
 }
 
+/* Nord Light palette (subtle, soft) */
+:root.theme-light,
+.theme-light {
+    --bg: #ECEFF4; /* nord-6 */
+    --text: #2E3440; /* nord-0/darker */
+    --orange: #D08770;
+    --green: #A3BE8C;
+    --blue: #5E81AC;
+    --purple: #B48EAD;
+    --aqua: #88C0D0;
+    --red: #BF616A;
+    --yellow: #EBCB8B;
+    --teal: #4C566A;
+    --grey: #616E88;
+    --ash: #D8DEE9;
+}
+
 body {
     margin: 0;
     padding: 2rem;
@@ -39,6 +56,102 @@ img.profile {
     object-fit: cover;
     margin-top: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.theme-toggle {
+    position: relative;
+    transform: translate(0, 0);
+    border: none;
+    background: var(--ash);
+    color: var(--text);
+    width: 44px; /* collapsed */
+    height: 44px;
+    padding: 0 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 180ms ease, transform 120ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+    transform: translateY(-3px);
+}
+
+/* Expanding label to the left of the button */
+
+.theme-toggle-wrap {
+    position: absolute;
+    /* anchor to the right edge of the profile, but use left so expansion grows to the right */
+    left: calc(100% - 28px);
+    bottom: 16px;
+    display: inline-block;
+}
+
+.theme-toggle .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 3.5px;
+    line-height: 1;
+    width: 20px;
+}
+
+.theme-toggle .label {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 160ms ease, transform 160ms ease;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+}
+
+/* expand the button width to reveal the label */
+.theme-toggle-wrap:not(.collapsed):hover .theme-toggle,
+.theme-toggle-wrap:not(.collapsed) .theme-toggle:focus {
+    width: 170px; /* expanded width, tweak as needed */
+}
+
+.theme-toggle-wrap:not(.collapsed):hover .theme-toggle .label,
+.theme-toggle-wrap:not(.collapsed) .theme-toggle:focus .label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* When wrapper has .collapsed, keep the button compact and hide label
+   This forces collapse immediately after click even if pointer remains over */
+.theme-toggle-wrap.collapsed .theme-toggle {
+    width: 44px !important;
+}
+.theme-toggle-wrap.collapsed .theme-toggle .label {
+    opacity: 0 !important;
+    transform: translateX(-6px) !important;
+}
+
+/* Light theme label background for contrast */
+.theme-light .theme-toggle {
+    background: var(--ash);
+    color: var(--text);
+    box-shadow: 0 6px 18px rgba(30, 36, 46, 0.08);
+}
+
+/* Theme menu wrapper */
+.theme-toggle-wrap { /* keep a single definition */
+    position: absolute;
+    left: calc(100% - 28px);
+    bottom: 16px;
+    display: inline-block;
 }
 
 h1,
@@ -156,7 +269,7 @@ a:hover {
 }
 
 .link {
-    background-color: #3c3836;
+    background-color: var(--ash);
     padding: 0.75rem 1rem;
     text-align: center;
     border-radius: 8px;
@@ -164,13 +277,19 @@ a:hover {
     font-size: 1rem;
     color: var(--text);
     text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.18s ease-in-out;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
 }
 
 .link:hover {
     background-color: var(--aqua);
-    color: #1d2021;
+    color: var(--text);
     transform: translateY(-3px) scale(1.03);
+}
+
+/* Ensure good contrast for light theme: tweak hover text color when in light theme */
+.theme-light .link:hover {
+    color: #1d2021; /* dark text on light aqua */
 }
 
 footer {
