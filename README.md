@@ -1,4 +1,4 @@
-# Poor Man's Website: My Personal Site
+# My Homepage
 
 This is a simple static website built using basic HTML and CSS. It serves as my personal website where I can share information about myself, my projects, and my interests.
 
