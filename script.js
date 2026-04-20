@@ -33,3 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.error('Failed to copy text: ', err));
     });
 });
+
+// --- BFCache Fix (Prevents blank screens on mobile back swipe) ---
+window.addEventListener('pageshow', (event) => {
+    // If the page was restored from the browser's history cache
+    if (event.persisted) {
+        const container = document.querySelector('.container');
+        if (container) {
+            container.classList.remove('fade-out');
+        }
+    }
+});
