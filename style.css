@@ -167,6 +167,7 @@ a.donate-link:hover {
 }
 
 .project-list li {
+    margin-top: 1.6rem;
     margin-bottom: 1.5rem;
     padding-left: 1rem;
     border-left: 2px solid var(--text-muted);
