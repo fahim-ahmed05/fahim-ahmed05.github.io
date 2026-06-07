@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume | Fahim</title>
+    <meta name="description"
+        content="Resume of Fahim Ahmed — Computer Science student and software developer based in Dhaka, Bangladesh.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="terminal-header">~ $ cat ./resume.md</div>
+
+        <h1>Fahim Ahmed</h1>
+
+        <p>Dhaka, Bangladesh<br>
+            <a href="mailto:fahim.ahmed@gmail.com">fahim.ahmed@gmail.com</a>
+            &nbsp;|&nbsp;
+            <a href="https://github.com/fahim-ahmed05" target="_blank">github.com/fahim-ahmed05</a>
+        </p>
+
+        <!-- Education -->
+        <h2>Education</h2>
+        <p><strong>North South University</strong><br>B.S. in Computer Science and Engineering</p>
+
+        <!-- Technical Skills -->
+        <h2>Technical Skills</h2>
+        <p>
+            <strong>Languages:</strong> C, C++, Java, Python, JavaScript, Lua, Bash, PowerShell<br>
+            <strong>Tools and Environments:</strong> Git, Docker, KVM, GitHub Actions, Linux, Windows
+        </p>
+
+        <!-- Projects -->
+        <h2>Projects</h2>
+        <ul class="project-list">
+            <li>
+                <strong>Browser History V2</strong> | Python, SQLite, Plugin, Flow Launcher
+                <p>• Developed this plugin as an enhanced version of existing browser history plugin for Flow Launcher.
+                    My enhancements include searching all installed browsers at once, blocking domains from showing up
+                    on
+                    the search, and optional preference of searching all browser profiles.</p>
+                <p>• Implemented a privacy-focused local caching mechanism that wipes temporary data when run in a
+                    portable environment to ensure user data security.</p>
+            </li>
+            <li>
+                <strong>Dot Manager</strong> | PowerShell, JSON, Script, Windows
+                <p>• Created this utility to manage and deploy program configuration files via JSON manifests.</p>
+                <p>• Script utilizes Robocopy for copying folders and Windows' native APIs for creating symlinks,
+                    junctions, hardlinks, and shortcuts.</p>
+            </li>
+            <li>
+                <strong>ScreenLock</strong> | Lua, Plugin, KOReader
+                <p>• Built a custom plugin for KOReader document viewer to add screen-locking functionality to EReaders
+                    upon device suspension/resumption.</p>
+                <p>• To mimic the lockscreen of phones a custom keyboard is made and displayed to enter the passcode.
+                    Passcode is stored as hash.</p>
+            </li>
+            <li>
+                <strong>Auto Subtitle Downloader</strong> | Lua, Subliminal, Plugin, mpv
+                <p>• Built this plugin for mpv media player to dynamically fetch and load subtitles for both local files
+                    and HTTP/HTTPS streams using external CLI tools like subliminal.</p>
+                <p>• Plugin checks local directories for already downloaded subtitles before invoking the CLI tool,
+                    preventing redundant API calls.</p>
+            </li>
+            <li>
+                <strong>Java GUI Apps</strong> | Java, Swing
+                <p>• Made a Bangladeshi localized Bengali calendar that renders the UI text in Bengali font, applying
+                    OOP concepts and using Java Swing for UI as a course project.</p>
+                <p>• Built a fully functional scientific calculator with GUI using Java Swing for a course project.</p>
+            </li>
+            <li class="view-all-item">
+                <a href="https://drive.google.com/file/d/1elREyJWTUncmaez4QxLVtia37z5s26AR/" target="_blank"
+                    class="terminal-link" id="resume-download-link">
+                    ./download-resume.cmd →
+                </a>
+            </li>
+        </ul>
+
+        <a href="index.html" class="nav-back">cd .. (Return Home)</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
