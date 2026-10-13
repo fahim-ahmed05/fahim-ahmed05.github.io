@@ -1,0 +1,1674 @@
+/* ==========================================================================
+   Personal link hub · liquid glass
+   A coloured field with drifting light blobs, and every interactive surface
+   sitting on it as a pane of glass: backdrop blur + saturation, a hairline,
+   a light-bent rim and a specular highlight that follows the pointer.
+   Structure: tokens -> reset -> field -> glass recipe -> chrome -> profile
+             -> groups -> cards -> brands -> states -> footer -> preferences
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+    /* light palette (also the no-preference default) */
+    --field: #dee3f2;
+    --field-deep: #c6cde6;
+    --text: #101321;
+    --text-strong: #05070f;
+    --muted: #4f566b;
+    --faint: #5b6377;
+
+    /* glass layers, thickest first */
+    --panel-fill: rgba(255, 255, 255, .55);
+    --pill-fill: rgba(255, 255, 255, .5);
+    --pill-fill-hover: rgba(255, 255, 255, .78);
+    --card-fill: rgba(255, 255, 255, .62);
+    --card-fill-hover: rgba(255, 255, 255, .95);
+    --tile-fill: rgba(255, 255, 255, .55);
+
+    --rim-top: rgba(255, 255, 255, .95);
+    --rim-bottom: rgba(255, 255, 255, .25);
+    --edge: rgba(23, 28, 56, .12);
+    --sheen: rgba(255, 255, 255, .95);
+    --shadow: rgba(28, 33, 66, .35);
+
+    /* the four-layer micro-shadow that makes a flat panel look lifted */
+    --micro: 0 .3px .7px rgba(17, 17, 17, .04),
+        0 .9px 1.8px -.6px rgba(17, 17, 17, .05),
+        0 2px 5.5px -1.2px rgba(17, 17, 17, .06),
+        0 5px 13px -2px rgba(17, 17, 17, .07);
+
+    --accent: #6d3bf5;
+    --accent-text: #5a26e0;
+    --icon-idle: #525a6e;
+
+    /* the wash under the glass: azure, orchid, blush - low chroma, no hard edges */
+    --blob-a: rgba(99, 152, 245, .40);
+    --blob-b: rgba(176, 132, 240, .30);
+    --blob-c: rgba(244, 143, 178, .24);
+
+    --font-ui: "Plus Jakarta Sans", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+    --font-display: "Space Grotesk", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+    --r-pill: 999px;
+    --r: 16px;
+    --r-sm: 12px;
+    --gap: 14px;
+    --gutter: clamp(1rem, 4.5vw, 2rem);
+    --blur: 20px;
+    --dur: .28s;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    --column: 47rem;
+
+    color-scheme: light;
+}
+
+/* Explicit dark choice ... */
+[data-theme="dark"] {
+    /* MIRROR OF THE @media (prefers-color-scheme: dark) BLOCK BELOW — the media
+       query covers "follow the OS with no JS", the attribute covers an explicit
+       choice. Change one, change the other. */
+    --field: #0a0e16;
+    --field-deep: #04060c;
+    --text: #e7eaf3;
+    --text-strong: #f7f9ff;
+    --muted: #a3abc0;
+    --faint: #8b94a9;
+
+    --panel-fill: rgba(26, 31, 43, .55);
+    --pill-fill: rgba(255, 255, 255, .07);
+    --pill-fill-hover: rgba(255, 255, 255, .14);
+    --card-fill: rgba(255, 255, 255, .055);
+    --card-fill-hover: rgba(255, 255, 255, .11);
+    --tile-fill: rgba(255, 255, 255, .07);
+
+    --rim-top: rgba(255, 255, 255, .4);
+    --rim-bottom: rgba(255, 255, 255, .05);
+    --edge: rgba(255, 255, 255, .11);
+    --sheen: rgba(196, 205, 255, .18);
+    --shadow: rgba(0, 0, 0, .75);
+
+    --micro: 0 .3px .7px rgba(0, 0, 0, .18),
+        0 .9px 1.8px -.6px rgba(0, 0, 0, .22),
+        0 2px 5.5px -1.2px rgba(0, 0, 0, .26),
+        0 5px 13px -2px rgba(0, 0, 0, .3);
+
+    --accent: #a97bff;
+    --accent-text: #c3a1ff;
+    --icon-idle: #b6bdd0;
+
+    /* same wash, one notch deeper and warmer-lit so the edges keep catching light */
+    --blob-a: rgba(62, 106, 224, .40);
+    --blob-b: rgba(124, 74, 200, .30);
+    --blob-c: rgba(214, 108, 128, .18);
+
+    color-scheme: dark;
+}
+
+/* ... and automatic dark when no choice was made. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --field: #0a0e16;
+        --field-deep: #04060c;
+        --text: #e7eaf3;
+        --text-strong: #f7f9ff;
+        --muted: #a3abc0;
+        --faint: #8b94a9;
+
+        --panel-fill: rgba(26, 31, 43, .55);
+        --pill-fill: rgba(255, 255, 255, .07);
+        --pill-fill-hover: rgba(255, 255, 255, .14);
+        --card-fill: rgba(255, 255, 255, .055);
+        --card-fill-hover: rgba(255, 255, 255, .11);
+        --tile-fill: rgba(255, 255, 255, .07);
+
+        --rim-top: rgba(255, 255, 255, .4);
+        --rim-bottom: rgba(255, 255, 255, .05);
+        --edge: rgba(255, 255, 255, .11);
+        --sheen: rgba(196, 205, 255, .18);
+        --shadow: rgba(0, 0, 0, .75);
+
+        --micro: 0 .3px .7px rgba(0, 0, 0, .18),
+            0 .9px 1.8px -.6px rgba(0, 0, 0, .22),
+            0 2px 5.5px -1.2px rgba(0, 0, 0, .26),
+            0 5px 13px -2px rgba(0, 0, 0, .3);
+
+        --accent: #a97bff;
+        --accent-text: #c3a1ff;
+        --icon-idle: #b6bdd0;
+
+        --blob-a: rgba(62, 106, 224, .40);
+        --blob-b: rgba(124, 74, 200, .30);
+        --blob-c: rgba(214, 108, 128, .18);
+
+        color-scheme: dark;
+    }
+}
+
+/* Brand tint: --brand / --brand-dark are declared per brand, on the same
+   element, further down — so substitution happens where both are set. */
+[data-icon] {
+    --icon-active: var(--brand, var(--accent));
+}
+
+[data-theme="dark"] [data-icon] {
+    --icon-active: var(--brand-dark, var(--brand, var(--accent)));
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) [data-icon] {
+        --icon-active: var(--brand-dark, var(--brand, var(--accent)));
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    /* No `scroll-behavior: smooth` here, and that is load-bearing. The property
+       applies to the browser's own scroll restoration on reload as well as to
+       anchor jumps, so the restore turns into a visible slide toward a target
+       that keeps moving while the layout settles. app.js animates the two
+       in-page anchors explicitly instead. */
+}
+
+body {
+    min-height: 100svh;
+    font-family: var(--font-ui);
+    font-size: clamp(.95rem, .9rem + .3vw, 1rem);
+    line-height: 1.5;
+    color: var(--text);
+    background-color: var(--field);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    color: var(--text-strong);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    /* the UA ships buttons with 1px 6px padding, which pulls an icon off centre
+       inside a square pill; anything that needs it declares its own */
+    padding: 0;
+    cursor: pointer;
+}
+
+svg {
+    display: block;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Touch behaviour
+   Three browser defaults read as a coloured flash when a card is tapped: the
+   WebKit tap highlight, the double-tap-to-zoom delay (which also turns a quick
+   double tap into a text selection), and selection painting on chrome that is
+   not meant to be read. The keyboard focus ring above is left alone on purpose.
+   -------------------------------------------------------------------------- */
+html {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.link,
+.quick,
+.pill-btn,
+.group-toggle,
+.copy-btn,
+.theme-switch,
+.share-tabs,
+.totop,
+.avatar,
+.group-head {
+    touch-action: manipulation;
+}
+
+/* none of these are text a visitor means to select */
+.link-mark,
+.link-trail,
+.group-title,
+.group-count,
+.rule,
+.quick,
+.theme-switch,
+.share-tabs,
+.pill-btn,
+.group-toggle,
+.copy-btn {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.skip-link {
+    position: fixed;
+    top: .75rem;
+    left: 50%;
+    translate: -50% -160%;
+    z-index: 40;
+    padding: .6rem 1.1rem;
+    border-radius: var(--r-pill);
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 12px 30px -10px var(--shadow);
+    transition: translate var(--dur) var(--ease), visibility var(--dur);
+    /* hidden, not just parked: otherwise the shadow smudges the top of the field */
+    visibility: hidden;
+}
+
+.skip-link:focus-visible {
+    translate: -50% 0;
+    visibility: visible;
+}
+
+.icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* --------------------------------------------------------------------------
+   3. The field: colour the glass bends and tints
+   -------------------------------------------------------------------------- */
+.ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(130% 100% at 50% -10%, var(--field) 30%, var(--field-deep) 100%);
+}
+
+.glow {
+    position: absolute;
+    width: min(42rem, 130vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    will-change: transform;
+}
+
+.glow-a {
+    top: -18rem;
+    left: -10rem;
+    background: radial-gradient(circle at 50% 50%, var(--blob-a), transparent 66%);
+    animation: drift-a 24s var(--ease) infinite alternate;
+}
+
+.glow-b {
+    top: 30%;
+    right: -9rem;
+    width: min(32rem, 105vw);
+    background: radial-gradient(circle at 50% 50%, var(--blob-b), transparent 66%);
+    animation: drift-b 31s var(--ease) infinite alternate;
+}
+
+.glow-c {
+    bottom: -22rem;
+    left: 10%;
+    width: min(38rem, 120vw);
+    background: radial-gradient(circle at 50% 50%, var(--blob-c), transparent 66%);
+    animation: drift-a 38s var(--ease) infinite alternate-reverse;
+}
+
+/* the one that sits behind the middle of the column, so the glass never goes
+   dead between the corners */
+.glow-d {
+    top: 26%;
+    left: 50%;
+    width: min(30rem, 92vw);
+    opacity: .6;
+    background: radial-gradient(circle at 50% 50%, var(--blob-a), transparent 70%);
+    animation: breathe 27s var(--ease) infinite alternate;
+}
+
+/* grain is what stops a large blur from looking like plastic */
+.grain {
+    position: absolute;
+    inset: 0;
+    opacity: .22;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+}
+
+@keyframes drift-a {
+    to {
+        /* small amplitude, and only on the corner blobs */
+        transform: translate3d(3rem, 2rem, 0) scale(1.18);
+    }
+}
+
+@keyframes drift-b {
+    to {
+        transform: translate3d(-3rem, 2.5rem, 0) scale(1.1);
+    }
+}
+
+/* glow-d is centred with a static translate; only the scale animates, so the
+   field breathes in place instead of sliding upward behind the glass */
+@keyframes breathe {
+    from {
+        transform: translate3d(-50%, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(-50%, 0, 0) scale(1.22);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   4. Glass recipe
+   -------------------------------------------------------------------------- */
+.link,
+.pill-btn,
+.theme-switch,
+.theme-thumb,
+.group-toggle,
+.copy-btn {
+    position: relative;
+    border: 1px solid var(--edge);
+    box-shadow: var(--micro);
+}
+
+/* the surfaces that actually refract the field behind them */
+.link,
+.pill-btn,
+.theme-switch,
+.theme-thumb {
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+    backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+}
+
+.pill-btn,
+.theme-switch,
+.group-toggle,
+.copy-btn {
+    background-color: var(--pill-fill);
+}
+
+/* light-bent rim: a white-to-clear gradient masked down to the 1px border ring */
+.link::after,
+.pill-btn::after,
+.theme-switch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(165deg, var(--rim-top), transparent 35%, transparent 65%, var(--rim-bottom));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. Page column
+   -------------------------------------------------------------------------- */
+.page {
+    width: 100%;
+    max-width: var(--column);
+    margin-inline: auto;
+    padding: clamp(1.25rem, 4vw, 2.75rem) var(--gutter) clamp(2.5rem, 6vw, 4rem);
+}
+
+/* --------------------------------------------------------------------------
+   6. Action row
+   -------------------------------------------------------------------------- */
+.actionbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .6rem;
+    margin-bottom: clamp(.5rem, 2vw, .75rem);
+}
+
+.theme-switch {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 2px;
+    padding: 4px;
+    border-radius: var(--r-pill);
+}
+
+.theme-switch>button {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .4rem .68rem;
+    border-radius: var(--r-pill);
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--faint);
+    transition: color var(--dur) var(--ease);
+}
+
+.theme-switch>button[aria-pressed="true"] {
+    color: var(--accent-text);
+}
+
+.theme-switch .icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.theme-thumb {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: calc((100% - 14px) / 3);
+    border-radius: var(--r-pill);
+    background-color: var(--card-fill-hover);
+    box-shadow: inset 0 1px 0 var(--rim-top), 0 4px 12px -6px var(--shadow);
+    transition: translate var(--dur) var(--ease);
+}
+
+.theme-switch[data-active="0"] .theme-thumb {
+    translate: 0 0;
+}
+
+.theme-switch[data-active="1"] .theme-thumb {
+    translate: calc(100% + 2px) 0;
+}
+
+.theme-switch[data-active="2"] .theme-thumb {
+    translate: calc(200% + 4px) 0;
+}
+
+@media (max-width: 34rem) {
+    .theme-label {
+        display: none;
+    }
+
+    .theme-switch>button {
+        padding: .42rem .58rem;
+    }
+}
+
+.pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem .95rem;
+    border-radius: var(--r-pill);
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease),
+        transform var(--dur) var(--ease);
+}
+
+.pill-btn:hover {
+    background-color: var(--pill-fill-hover);
+    color: var(--accent-text);
+    transform: translateY(-2px);
+}
+
+.pill-btn:active {
+    transform: translateY(0) scale(.96);
+}
+
+.pill-btn .icon {
+    width: .95rem;
+    height: .95rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. Profile
+   -------------------------------------------------------------------------- */
+.profile {
+    padding: clamp(.75rem, 3vw, 1.5rem) clamp(.25rem, 2vw, .75rem) 0;
+    text-align: center;
+}
+
+/* the photo on its own - no ring, just the shadow it casts on the field */
+.avatar {
+    width: clamp(6.5rem, 21vw, 8.25rem);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    border-radius: 50%;
+}
+
+.avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 18px 34px -18px var(--shadow);
+}
+
+.name {
+    margin-top: clamp(.85rem, 3vw, 1.15rem);
+    font-size: clamp(1.5rem, 5vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -.03em;
+}
+
+.bio {
+    max-width: 30rem;
+    margin: .5rem auto 0;
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-wrap: pretty;
+}
+
+/* --------------------------------------------------------- quick icon row */
+.quick {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: clamp(.9rem, 3vw, 1.2rem);
+}
+
+/* bare marks on big tap targets, no tiles — the icons are the decoration */
+.quick-link {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 11px;
+    transition: transform var(--dur) var(--ease);
+}
+
+.quick-link:hover {
+    transform: scale(1.14);
+}
+
+.quick-link:active {
+    transform: scale(.96);
+}
+
+.quick-link .link-mark {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   8. Groups
+   -------------------------------------------------------------------------- */
+.links {
+    display: grid;
+    gap: clamp(1.4rem, 5vw, 2rem);
+    margin-top: clamp(1.5rem, 5vw, 2.25rem);
+}
+
+/* Vertical rhythm is made of margins, not of grid gaps: a collapsing
+   .group-body has to be able to reach exactly zero, and a gap owned by the
+   parent would still be there the moment the animation handed it back. */
+.group {
+    display: grid;
+}
+
+.group-head {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 0 .35rem;
+    margin-bottom: calc(var(--gap) - 2px);
+}
+
+/* list + reveal button as one box, so closing a section can take both with it */
+.group-body {
+    display: grid;
+    gap: calc(var(--gap) - 2px);
+}
+
+.group-title {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .9rem;
+    letter-spacing: -.01em;
+}
+
+.group-title>.icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--accent);
+}
+
+.group-count {
+    padding: 0 .42rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--r-pill);
+    font-family: var(--font-ui);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--faint);
+}
+
+/* hairline that turns the heading into a divider */
+.rule {
+    flex: 1;
+    height: 1px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, var(--edge), transparent);
+}
+
+.group-toggle {
+    display: grid;
+    place-items: center;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 50%;
+    color: var(--faint);
+    transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+
+.group-toggle:hover {
+    background-color: var(--pill-fill-hover);
+    color: var(--accent-text);
+}
+
+.group-toggle .icon {
+    width: .95rem;
+    height: .95rem;
+    transition: transform var(--dur) var(--ease);
+}
+
+.group[data-collapsed="true"] .group-toggle .icon {
+    transform: rotate(-90deg);
+}
+
+/* data-closing is the exemption that lets the body shrink to nothing before it
+   leaves the flow; without it the state flip would remove the box outright. */
+.group[data-collapsed="true"]:not([data-closing="true"]) .group-body {
+    display: none;
+}
+
+.list {
+    display: grid;
+    /* Never stretch the rows. While a slide is running the box can be taller
+       than its content, and the default `align-content: stretch` would spend
+       that space inflating the cards - which is what made the second row look
+       like it slid backwards. */
+    align-content: start;
+    gap: var(--gap);
+}
+
+/* two panes side by side once there is room for them */
+@media (min-width: 44rem) {
+    .list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.item {
+    position: relative;
+}
+
+/* The fold lives here rather than in script on purpose. A fold applied after
+   first paint shrinks the document mid scroll-restoration, which is what made
+   every reload slide upward; :has() decides from the markup alone.
+   Both halves are gated on the SAME capability (.js present and :has() usable)
+   so a fold can never hide cards without also offering the way to reveal them. */
+.more {
+    display: none;
+    justify-self: center;
+    margin-top: 2px;
+}
+
+@supports selector(:has(*)) {
+
+    /* Shown while the section is open, and also while it is sliding shut:
+       data-closing arrives with data-collapsed already set, so without the
+       second half of this pair the button leaves the flow on the first tick and
+       the section collapses around it - the pop this whole box exists to avoid. */
+    .js .group:not([data-collapsed="true"]):has(.list> :nth-child(5)) .more,
+    .js .group[data-closing="true"]:has(.list> :nth-child(5)) .more {
+        display: inline-flex;
+    }
+
+    /* EXTRA_AFTER is 4, mirrored in app.js. data-tail-out keeps the folded cards
+       laid out for one last fade while the box shrinks over the top of them. */
+    .js .group:not([data-expanded="true"]):not([data-tail-out="true"]) .list> :nth-child(n+5) {
+        display: none;
+    }
+}
+
+/* Leaving, either as a folded tail or as a whole closing section: the cards fade
+   out instead of being sheared off by the edge of the shrinking box, which is
+   what read as "a line hiding the buttons". The opacity sits on the card, never
+   on the .item - a glass card inside a translucent stacking context has no
+   backdrop left to blur, so it would flatten before it disappeared. */
+.group[data-tail-out="true"] .list> :nth-child(n+5),
+.group[data-closing="true"] .list>.item {
+    pointer-events: none;
+}
+
+.group[data-tail-out="true"] .list> :nth-child(n+5)>*,
+.group[data-closing="true"] .list>.item>*,
+.group[data-closing="true"] .more {
+    opacity: 0;
+    transition: opacity .18s var(--ease);
+}
+
+.more .icon {
+    transition: transform var(--dur) var(--ease);
+}
+
+.group[data-expanded="true"] .more .icon {
+    transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   9. Cards
+   -------------------------------------------------------------------------- */
+.link {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    min-height: 64px;
+    padding: .7rem .85rem;
+    border-radius: var(--r);
+    background-color: var(--card-fill);
+    overflow: hidden;
+    transition:
+        transform var(--dur) var(--ease),
+        background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+}
+
+/* specular highlight tracking the pointer (--mx / --my from app.js) */
+.link::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(14rem 9rem at var(--mx, 50%) var(--my, 0%), var(--sheen), transparent 55%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease);
+}
+
+.link:hover,
+.item:hover .link {
+    transform: translateY(-3px);
+    background-color: var(--card-fill-hover);
+    border-color: var(--rim-top);
+    box-shadow: var(--micro), 0 16px 26px -14px var(--shadow);
+}
+
+.link:hover::before,
+.item:hover .link::before {
+    opacity: .6;
+}
+
+.link:active {
+    transform: translateY(-1px) scale(.995);
+}
+
+.link-body {
+    display: grid;
+    gap: .1rem;
+    min-width: 0;
+}
+
+.link-title {
+    font-family: var(--font-display);
+    font-size: .95rem;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    color: var(--text-strong);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.link-sub {
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.link-trail {
+    margin-left: auto;
+    color: var(--faint);
+    transition: color var(--dur) var(--ease);
+}
+
+/* everything inside a card travels with the card - nothing animates on its own
+   except the arrow, which only shifts colour */
+.link:hover .link-trail {
+    color: var(--accent-text);
+}
+
+/* --------------------------------------------------------- the icon tiles */
+.link-mark {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    border-radius: var(--r-sm);
+    background-color: var(--tile-fill);
+    color: var(--accent);
+    transition: background-color var(--dur) var(--ease);
+}
+
+/* Brand glyphs are masked onto a pseudo-element, because masking an element
+   also masks its own background — this keeps the tile underneath alive. */
+[data-icon]>.link-mark {
+    position: relative;
+}
+
+[data-icon]>.link-mark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--icon-idle);
+    -webkit-mask: var(--brand-mask) center / 52% no-repeat;
+    mask: var(--brand-mask) center / 52% no-repeat;
+    transition: background-color var(--dur) var(--ease);
+}
+
+/* quick row: no tile at all, so the mark itself carries the colour and the
+   glyph fills the whole 32px box */
+.quick-link[data-icon]>.link-mark::before {
+    background-color: var(--icon-idle);
+    -webkit-mask: var(--brand-mask) center / contain no-repeat;
+    mask: var(--brand-mask) center / contain no-repeat;
+}
+
+.quick-link:hover[data-icon]>.link-mark::before {
+    background-color: var(--icon-active, var(--accent));
+}
+
+.link[data-icon]:hover>.link-mark::before,
+.item:hover [data-icon]>.link-mark::before {
+    background-color: var(--icon-active, var(--accent));
+}
+
+/* --------------------------------------------------------------------------
+   10. Card furniture
+   -------------------------------------------------------------------------- */
+.copy-btn {
+    position: absolute;
+    z-index: 2;
+    right: .6rem;
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 50%;
+    color: var(--faint);
+    transition: color .2s var(--ease), background-color .2s var(--ease), transform .2s var(--ease);
+}
+
+.copy-btn:hover {
+    background-color: var(--pill-fill-hover);
+    color: var(--accent-text);
+    transform: translate(0, -50%) scale(1.1);
+}
+
+.copy-btn.is-copied {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+/* confirmation lives on the control itself while the modal is open, because a
+   modal dialog paints in the top layer and would cover the toast */
+.pill-btn.is-copied {
+    background-color: var(--accent);
+    /* --edge is a dark hairline meant for glass; on a solid accent fill it reads
+       as a smudge, so the copied chip keeps the bright rim the rest of the UI uses */
+    border-color: var(--rim-top);
+    color: #fff;
+}
+
+/* All three labels share one grid cell, so the button is sized by the widest
+   state and never reflows when it changes. */
+.copy-label {
+    display: grid;
+}
+
+.copy-label>span {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity .18s var(--ease);
+}
+
+.copy-label>[data-state="idle"] {
+    opacity: 1;
+}
+
+[data-share-copy][data-copy-state="done"] .copy-label>[data-state="idle"],
+[data-share-copy][data-copy-state="fail"] .copy-label>[data-state="idle"] {
+    opacity: 0;
+}
+
+[data-share-copy][data-copy-state="done"] .copy-label>[data-state="done"],
+[data-share-copy][data-copy-state="fail"] .copy-label>[data-state="fail"] {
+    opacity: 1;
+}
+
+.item--copy .link {
+    padding-right: 2.9rem;
+}
+
+/* a card whose whole surface is the trigger has to look like one */
+.link.is-value,
+.link[role="button"] {
+    cursor: pointer;
+}
+
+.link .link-trail {
+    color: var(--faint);
+}
+
+/* --------------------------------------------------------------------------
+   11. States
+   -------------------------------------------------------------------------- */
+.item[hidden],
+.group[hidden],
+.more[hidden],
+.pill-btn[hidden],
+.toast[hidden] {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Entrance: one wave, top to bottom
+   A single keyframe, duration and easing for everything; the delay comes from
+   position alone (section index + card index). Nothing is scroll-triggered, so
+   no element can arrive out of order, restart, or pop in bulk later.
+   Gated on .js, which the head script sets before first paint.
+   -------------------------------------------------------------------------- */
+@keyframes enter {
+    from {
+        opacity: 0;
+        /* settle into focus rather than slide up: scale and blur displace
+           nothing, so the wave cannot read as the page scrolling */
+        transform: scale(.985);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+/* `backwards`, not `both`: during the delay the element still shows the
+   from-state, so the wave looks identical - but once it is finished the opacity
+   is handed back to the normal cascade, which is what lets a later state rule
+   (a section sliding shut, say) fade the element instead of fighting a fill. */
+.js .actionbar,
+.js .profile,
+.js .group-head,
+.js .item,
+.js .more,
+.js .foot {
+    animation: enter .42s var(--ease) backwards;
+}
+
+/* Rhythm: one stride per section, one smaller step per card. The stride must
+   exceed the widest in-section span (5 steps) or a card would fade in after
+   the heading below it - which is exactly what a fixed .13s stride did. */
+.js .page {
+    --base: .12s;
+    --step: .04s;
+    --stride: .22s;
+    --g-last: 0;
+}
+
+/* how many sections there really are, so the footer can queue up behind them */
+.js .page:has(.group:nth-of-type(2)) {
+    --g-last: 1;
+}
+
+.js .page:has(.group:nth-of-type(3)) {
+    --g-last: 2;
+}
+
+.js .page:has(.group:nth-of-type(4)) {
+    --g-last: 3;
+}
+
+/* per-section offset, inherited by the head and the cards below it */
+.js .group {
+    --g: 0;
+}
+
+.js .group:nth-of-type(2) {
+    --g: 1;
+}
+
+.js .group:nth-of-type(3) {
+    --g: 2;
+}
+
+.js .group:nth-of-type(4) {
+    --g: 3;
+}
+
+.js .actionbar {
+    animation-delay: 0s;
+}
+
+.js .profile {
+    animation-delay: calc(var(--base) / 2);
+}
+
+.js .group-head {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride));
+}
+
+.js .list> :nth-child(1) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 1);
+}
+
+.js .list> :nth-child(2) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 2);
+}
+
+.js .list> :nth-child(3) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 3);
+}
+
+.js .list> :nth-child(4) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 4);
+}
+
+/* the folded tail is display:none at load, so this only matters once opened */
+.js .list> :nth-child(n+5) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 5);
+}
+
+/* the reveal button arrives with its own cards instead of just appearing */
+.js .more {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 5);
+}
+
+/* The folded tail is display:none at load, so its usual entrance is a click.
+   app.js marks that moment with data-opening so the cards cascade from the
+   click itself; without the mark (a reload into a saved-open section) they
+   keep their place in the load wave, so delay order stays document order. */
+.group[data-opening="true"] .list> :nth-child(n+5) {
+    animation-delay: 0s;
+}
+
+.group[data-opening="true"] .list> :nth-child(6) {
+    animation-delay: calc(var(--step) * 1);
+}
+
+.group[data-opening="true"] .list> :nth-child(7) {
+    animation-delay: calc(var(--step) * 2);
+}
+
+.group[data-opening="true"] .list> :nth-child(8) {
+    animation-delay: calc(var(--step) * 3);
+}
+
+.group[data-opening="true"] .list> :nth-child(n+9) {
+    animation-delay: calc(var(--step) * 4);
+}
+
+/* A section coming back through the chevron: its body was out of the flow, so
+   every card inside restarts its entrance. They have to be re-timed from the
+   click - left alone, the last section's cards would wait out their slot in the
+   load wave (nearly a second) and the expand would look like nothing happened.
+   The tail rules above stay clear of these: only one marker is ever set. */
+.group[data-reveal="true"] .list> :nth-child(1) {
+    animation-delay: 0s;
+}
+
+.group[data-reveal="true"] .list> :nth-child(2) {
+    animation-delay: calc(var(--step) * 1);
+}
+
+.group[data-reveal="true"] .list> :nth-child(3) {
+    animation-delay: calc(var(--step) * 2);
+}
+
+.group[data-reveal="true"] .list> :nth-child(4) {
+    animation-delay: calc(var(--step) * 3);
+}
+
+.group[data-reveal="true"] .list> :nth-child(n+5),
+.group[data-reveal="true"] .more {
+    animation-delay: calc(var(--step) * 4);
+}
+
+.js .foot {
+    animation-delay: calc(var(--base) + (var(--g-last) + 1) * var(--stride));
+}
+
+/* --------------------------------------------------------------------------
+   12. Footer + toast
+   -------------------------------------------------------------------------- */
+.foot {
+    display: grid;
+    justify-items: center;
+    gap: .15rem;
+    margin-top: clamp(1.75rem, 6vw, 2.5rem);
+    padding-top: clamp(1rem, 4vw, 1.4rem);
+    border-top: 1px solid var(--edge);
+    text-align: center;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.foot-note {
+    color: var(--faint);
+    font-size: .76rem;
+}
+
+.totop {
+    margin-top: .6rem;
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(1rem, 4vw, 2rem);
+    translate: -50% 150%;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    max-width: min(90vw, 26rem);
+    padding: .65rem 1.05rem;
+    border: 1px solid var(--rim-top);
+    border-radius: var(--r-pill);
+    background-color: var(--panel-fill);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--micro), 0 22px 44px -18px var(--shadow);
+    font-size: .84rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: translate .4s var(--ease), opacity .4s var(--ease);
+}
+
+.toast.is-shown {
+    translate: -50% 0;
+    opacity: 1;
+}
+
+.toast .icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   13. Brand registry
+   Each entry: mask source + hover tint (plus a lighter tint for dark when the
+   official mark is too dark to read on dark glass).
+   -------------------------------------------------------------------------- */
+[data-icon="github"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/github.svg");
+    --brand: #1b1f24;
+    --brand-dark: #e7eaf3;
+}
+
+[data-icon="linkedin"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/linkedin.svg");
+    --brand: #0a66c2;
+}
+
+[data-icon="bluesky"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/bluesky.svg");
+    --brand: #1185fe;
+}
+
+[data-icon="mastodon"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mastodon.svg");
+    --brand: #6364ff;
+}
+
+[data-icon="telegram"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg");
+    --brand: #26a5e4;
+}
+
+[data-icon="instagram"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg");
+    --brand: #e4405f;
+}
+
+[data-icon="whatsapp"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/whatsapp.svg");
+    --brand: #1faf56;
+}
+
+[data-icon="messenger"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/messenger.svg");
+    --brand: #0084ff;
+}
+
+[data-icon="gmail"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/gmail.svg");
+    --brand: #d33833;
+}
+
+[data-icon="patreon"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/patreon.svg");
+    --brand: #f96854;
+}
+
+[data-icon="substack"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/substack.svg");
+    --brand: #ff6719;
+}
+
+/* wide wordmark, so the single mask size keeps its proportions */
+[data-icon="medium"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/medium-light.svg");
+    --brand: #000000;
+    --brand-dark: #f5f7fa;
+}
+
+[data-icon="facebook"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/facebook.svg");
+    --brand: #1877f2;
+}
+
+[data-icon="x"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/x.svg");
+    --brand: #0f1419;
+    --brand-dark: #e7eaf3;
+}
+
+[data-icon="threads"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/threads.svg");
+    --brand: #000914;
+    --brand-dark: #f5f7fa;
+}
+
+[data-icon="discord"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/discord.svg");
+    --brand: #5865f2;
+}
+
+[data-icon="youtube"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/youtube.svg");
+    --brand: #ff0033;
+}
+
+/* Pathao and Skrill marks inlined as data URIs, so the whole registry lives
+   here and costs no extra requests. Background plates removed, glyph only.
+   Pathao: derived from pathaopay.com/images/pathao_logo.svg.
+   Skrill: derived from "Skrill icon 2025.svg", Wikimedia Commons, CC BY-SA 4.0
+   https://commons.wikimedia.org/wiki/File:Skrill_icon_2025.svg */
+[data-icon="pathao"] {
+    --brand-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Cpath d='M28.0057 0C19.3494 0 11.6266 3.90383 6.44981 10.099C7.38333 14.7667 8.74119 18.9251 10.4385 22.4046C9.84444 23.9322 9.42011 25.4598 9.25038 26.8176L7.89253 34.1161C5.34655 30.9761 2.80057 26.8176 0.763793 21.3862C0.254598 23.5079 0 25.7144 0 27.9209C0 34.9648 2.63084 41.4146 6.87414 46.3368L8.91092 35.3042L10.4385 26.9874C10.6082 25.8841 10.9477 24.696 11.372 23.5079C11.4569 23.3381 11.4569 23.1684 11.5418 22.9987C11.6266 22.8289 11.7115 22.5743 11.7964 22.4046C11.8812 22.2349 11.8812 22.15 11.9661 21.9803C12.051 21.8105 12.1358 21.5559 12.2207 21.3862C12.3056 21.2165 12.3904 21.1316 12.3904 20.9619C12.4753 20.7921 12.5602 20.6224 12.645 20.3678C12.7299 20.1981 12.8996 19.9435 12.9845 19.7738C13.0693 19.604 13.1542 19.5192 13.2391 19.3494C15.8699 14.8515 20.5375 10.6931 28.0906 10.6931C35.1345 10.6931 41.2448 14.9364 43.7908 21.4711C46.3368 28.0906 44.5546 35.3042 39.1232 40.2264C34.0312 44.8092 25.969 45.7427 18.5856 42.433C18.331 42.2632 17.9916 42.1784 17.6521 42.0086L19.2646 33.1826C20.1132 33.7766 21.0467 34.2858 21.9803 34.7102C26.3084 36.5772 30.7215 36.3226 33.3523 33.9464C36.1529 31.4004 37.0864 27.836 35.8134 24.5262C34.795 21.9803 32.249 19.1797 28.0906 19.1797C20.5375 19.1797 19.01 27.4117 18.8402 28.3452V28.4301L18.1613 32.3339L16.464 41.3297L14.4272 52.4471C18.4159 54.6536 23.0835 55.9266 28.0057 55.9266C43.4513 55.9266 56.0115 43.3665 56.0115 27.9209C56.0115 12.4753 43.4513 0 28.0057 0Z'/%3E%3C/svg%3E");
+    --brand: #3b82de;
+    --brand-dark: #6aa6ef;
+}
+
+[data-icon="skrill"] {
+    --brand-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='107 134 333 244'%3E%3Cpath d='M434.24,255.93v.14c0,1.27-.51,2.49-1.42,3.38l-113.97,113.98c-.45.46-1.06.71-1.7.71h-.72c-1.33,0-2.41-1.08-2.41-2.41h0v-115.66c0,1.27-.51,2.49-1.41,3.38l-113.27,113.29c-.9.9-2.12,1.41-3.4,1.41h-.12c-1.28,0-2.51-.51-3.42-1.42l-113.26-113.26c-.9-.9-1.4-2.12-1.41-3.38v-.13c0-1.28.51-2.49,1.42-3.4l113.26-113.3c.91-.91,2.15-1.41,3.43-1.41h.12c1.29,0,2.5.51,3.4,1.42l113.29,113.26c.9.91,1.41,2.13,1.41,3.4v-115.66c0-1.33,1.08-2.41,2.4-2.41h.72c.64,0,1.24.25,1.7.71l113.98,113.97c.9.91,1.42,2.13,1.42,3.4h-.04Z'/%3E%3C/svg%3E");
+    --brand: #910590;
+    --brand-dark: #cf43ce;
+}
+
+[data-icon="signal"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/signal.svg");
+    --brand: #3a76f0;
+}
+
+[data-icon="gitlab"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/gitlab.svg");
+    --brand: #fc6d26;
+}
+
+[data-icon="codeberg"] {
+    --brand-mask: url("https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/codeberg.svg");
+    --brand: #2185cf;
+    --brand-dark: #4ea6e6;
+}
+
+/* --------------------------------------------------------------------------
+   13. Share dialog
+   -------------------------------------------------------------------------- */
+.share-modal {
+    /* Pinned to the viewport and centred with inset + auto margins. It must
+       never sit in the document flow: an in-flow dialog makes the page taller
+       after load, which is what knocked the browser's scroll restoration out. */
+    position: fixed;
+    inset: 0;
+    width: min(26rem, calc(100vw - 3rem));
+    height: fit-content;
+    max-height: calc(100dvh - 3rem);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--rim-top);
+    border-radius: 26px;
+    background-color: var(--panel-fill);
+    color: var(--text);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: var(--micro), 0 40px 80px -30px var(--shadow);
+    overflow: auto;
+}
+
+/* An author `display` rule beats the UA's `dialog:not([open]) { display: none }`,
+   so the display declaration has to be gated on [open] or a closed dialog
+   renders in the page. */
+dialog.share-modal[open] {
+    display: grid;
+    animation: pop .26s var(--ease) both;
+}
+
+@keyframes pop {
+    from {
+        opacity: 0;
+        transform: scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.share-modal::backdrop {
+    background: rgba(6, 8, 14, .45);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    animation: enter-backdrop .26s var(--ease) both;
+}
+
+@keyframes enter-backdrop {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Closing has to be driven by a class: the instant the dialog element closes,
+   the UA hides it, and an animation cannot run on a hidden element. app.js
+   plays this for 200ms before calling close(). */
+.share-modal[open].is-closing {
+    animation: vanish .2s var(--ease) both;
+}
+
+.share-modal[open].is-closing::backdrop {
+    animation: vanish-backdrop .2s var(--ease) both;
+}
+
+@keyframes vanish {
+    to {
+        opacity: 0;
+        transform: scale(.94);
+    }
+}
+
+@keyframes vanish-backdrop {
+    to {
+        opacity: 0;
+    }
+}
+
+.share-inner {
+    display: grid;
+    gap: .8rem;
+    padding: clamp(.9rem, 4vw, 1.25rem);
+}
+
+.share-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .6rem;
+}
+
+.share-title {
+    font-size: 1.1rem;
+}
+
+/* segmented slider, same language as the theme switch */
+.share-tabs {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 2px;
+    justify-self: center;
+    width: min(17rem, 100%);
+    padding: 4px;
+    border: 1px solid var(--edge);
+    border-radius: var(--r-pill);
+    background-color: var(--pill-fill);
+    box-shadow: var(--micro);
+}
+
+.share-tabs>button {
+    position: relative;
+    z-index: 1;
+    padding: .42rem .6rem;
+    border-radius: var(--r-pill);
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--faint);
+    transition: color var(--dur) var(--ease);
+}
+
+.share-tabs>button[aria-pressed="true"] {
+    color: var(--accent-text);
+}
+
+.tabs-thumb {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 12px) / 2);
+    border-radius: var(--r-pill);
+    background-color: var(--card-fill-hover);
+    box-shadow: inset 0 1px 0 var(--rim-top), 0 4px 12px -6px var(--shadow);
+    transition: translate var(--dur) var(--ease);
+}
+
+.share-tabs[data-active="1"] .tabs-thumb {
+    translate: calc(100% + 2px) 0;
+}
+
+/* the plate stays light: a QR only scans as dark marks on a light field */
+.qr-plate {
+    display: grid;
+    place-items: center;
+    padding: .9rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--r);
+    background: #fff;
+    box-shadow: var(--micro);
+    transition: opacity var(--dur) var(--ease);
+}
+
+.qr-canvas {
+    /* render at its natural pixel size so modules stay crisp; only shrink to fit */
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+}
+
+.share-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+}
+
+.share-actions .pill-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   14. Fallbacks & preferences
+   -------------------------------------------------------------------------- */
+/* No backdrop filter (older Safari/Firefox, forced colours): keep it readable. */
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+
+    .link,
+    .pill-btn,
+    .theme-switch,
+    .theme-thumb,
+    .share-modal,
+    .toast {
+        background-color: var(--card-fill-hover);
+    }
+}
+
+@media (max-width: 30rem) {
+    :root {
+        --gap: 12px;
+    }
+}
+
+/* Touch screens keep the last tapped element sitting in :hover, which left the
+   quick icons tinted after a tap. Everything hover-only is undone where there
+   is no real pointer; :active feedback stays. */
+@media (hover: none) {
+
+    .link:hover,
+    .item:hover .link {
+        transform: none;
+        background-color: var(--card-fill);
+        border-color: var(--edge);
+        box-shadow: var(--micro);
+    }
+
+    .link:hover::before,
+    .item:hover .link::before {
+        opacity: 0;
+    }
+
+    .link[data-icon]:hover>.link-mark::before,
+    .item:hover [data-icon]>.link-mark::before,
+    .quick-link:hover[data-icon]>.link-mark::before {
+        background-color: var(--icon-idle);
+    }
+
+    .link:hover .link-trail {
+        color: var(--faint);
+    }
+
+    .quick-link:hover {
+        transform: none;
+    }
+
+    .pill-btn:hover {
+        background-color: var(--pill-fill);
+        color: var(--muted);
+        transform: none;
+    }
+
+    .share-tabs>button:hover {
+        color: var(--faint);
+    }
+
+    .share-tabs>button[aria-pressed="true"] {
+        color: var(--accent-text);
+    }
+
+    .group-toggle:hover {
+        background-color: var(--pill-fill);
+        color: var(--faint);
+    }
+
+    .copy-btn:hover {
+        background-color: var(--pill-fill);
+        color: var(--faint);
+        transform: translate(0, -50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-delay: 0s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+
+    .glow {
+        animation: none;
+    }
+}

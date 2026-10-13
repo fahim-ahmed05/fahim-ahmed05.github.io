@@ -4,35 +4,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fahim | Software Developer</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Theme must be resolved before the first paint so no flash of the wrong palette occurs. -->
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = JSON.parse(localStorage.getItem('fa-theme') || 'null'); } catch (e) { /* storage blocked */ }
+            var choice = (saved === 'light' || saved === 'dark') ? saved : null;
+            if (choice) document.documentElement.setAttribute('data-theme', choice);
+            document.documentElement.classList.add('js');
+        })();
+    </script>
+
+    <title>Fahim Ahmed</title>
+    <meta name="description"
+        content="All of Fahim Ahmed in one place: where to find him, where he writes code and ways to donate.">
+    <meta name="author" content="Fahim Ahmed">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#dee3f2" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0e16" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="fahim-ahmed05.github.io">
+    <meta property="og:title" content="Fahim Ahmed">
+    <meta property="og:description" content="CSE undergrad student. FOSS believer.">
+    <meta property="og:url" content="https://fahim-ahmed05.github.io/">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Fahim Ahmed">
+    <meta name="twitter:description" content="CSE undergrad student. FOSS believer.">
+
+    <link rel="canonical" href="https://fahim-ahmed05.github.io/">
+    <!-- The PNG is for browsers that cannot render an SVG favicon; the ones that
+         can take the vector, which is declared last. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <!-- Home-screen tile: iOS rounds and masks this itself and lays black behind
+         transparent corners, so the art has to run full bleed. -->
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="terminal-header">~ $ ./whoami.ps1</div>
+    <a class="skip-link" href="#links">Skip to links</a>
 
-        <h1>Hi, I'm Fahim.</h1>
+    <!-- ==================================================================
+         Inline icon sprite. Brand marks are masked from a CDN (see the
+         [data-icon] registry in main.css); everything geometric lives here
+         so it never depends on the network.
+         ================================================================== -->
+    <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="i-chevron" viewBox="0 0 24 24">
+            <path d="m6 9 6 6 6-6" />
+        </symbol>
+        <symbol id="i-arrow-out" viewBox="0 0 24 24">
+            <path d="M7 17 17 7" />
+            <path d="M8 7h9v9" />
+        </symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24">
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4.2" />
+            <path
+                d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </symbol>
+        <symbol id="i-monitor" viewBox="0 0 24 24">
+            <rect x="2.5" y="3.5" width="19" height="13.5" rx="2" />
+            <path d="M8.5 21h7M12 17v4" />
+        </symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="12" height="12" rx="2.2" />
+            <path d="M5 15H4.2A1.7 1.7 0 0 1 2.5 13.3V4.7A1.7 1.7 0 0 1 4.2 3h8.6A1.7 1.7 0 0 1 14.5 4.7V5.5" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+            <path d="m20 6.5-11 11-5-5" />
+        </symbol>
+        <symbol id="i-x" viewBox="0 0 24 24">
+            <path d="M18 6 6 18M6 6l12 12" />
+        </symbol>
+        <symbol id="i-download" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <path d="m7 10 5 5 5-5M12 15V3" />
+        </symbol>
+        <symbol id="i-share" viewBox="0 0 24 24">
+            <path d="M12 15V3" />
+            <path d="m8 7 4-4 4 4" />
+            <path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7" />
+        </symbol>
+        <symbol id="i-users" viewBox="0 0 24 24">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </symbol>
+        <symbol id="i-code" viewBox="0 0 24 24">
+            <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+        </symbol>
+        <symbol id="i-book" viewBox="0 0 24 24">
+            <path d="M2.5 3.5h5.7a4 4 0 0 1 4 4V21a3 3 0 0 0-3-3H2.5z" />
+            <path d="M21.5 3.5h-5.7a4 4 0 0 0-4 4V21a3 3 0 0 1 3-3h6.7z" />
+        </symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24">
+            <path
+                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z" />
+        </symbol>
+    </svg>
 
-        <p>
-            A CSE undergrad student from North South University. I am focused on building efficient tools, automating workflows,
-            and
-            optimizing system environments. I write scripts, plugins, and backend utilities designed to make software
-            run
-            faster and smarter.
-        </p>
-
-        <div class="links">
-            <a href="https://github.com/fahim-ahmed05" target="_blank">GitHub</a>
-            <a href="projects.html">Projects</a>
-            <a href="resume.html">Resume</a>
-            <a href="https://medium.com/@fahim-ahmed" target="_blank">Blog</a>
-            <a href="contact.html">Contact</a>
-            <a href="donate.html" class="donate-link">Donate</a>
-        </div>
+    <!-- The colour the glass bends and tints. -->
+    <div class="ambient" aria-hidden="true">
+        <span class="glow glow-a"></span>
+        <span class="glow glow-b"></span>
+        <span class="glow glow-c"></span>
+        <span class="glow glow-d"></span>
+        <span class="grain"></span>
     </div>
-    <script src="script.js"></script>
-    <a rel="me" href="https://mastodon.social/@fahim_ahmed" style="display: none;">Mastodon</a>
+
+    <main class="page" id="top">
+        <div class="actionbar">
+            <div class="theme-switch" data-active="2" role="group" aria-label="Colour theme">
+                <span class="theme-thumb" aria-hidden="true"></span>
+                <button type="button" data-theme-choice="light" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-sun"></use>
+                    </svg><span class="theme-label">Light</span>
+                </button>
+                <button type="button" data-theme-choice="dark" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-moon"></use>
+                    </svg><span class="theme-label">Dark</span>
+                </button>
+                <button type="button" data-theme-choice="auto" aria-pressed="true">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-monitor"></use>
+                    </svg><span class="theme-label">Auto</span>
+                </button>
+            </div>
+            <button type="button" class="pill-btn share" data-share>
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-share"></use>
+                </svg>
+                <span>Share</span>
+            </button>
+        </div>
+
+        <!-- ============================ Profile ============================ -->
+        <header class="profile">
+            <div class="avatar">
+                <img class="avatar-img" src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="Fahim Ahmed"
+                    width="112" height="112" loading="eager" decoding="async">
+            </div>
+
+            <h1 class="name">Fahim Ahmed</h1>
+
+            <p class="bio">CSE undergrad student. FOSS believer.</p>
+
+            <!-- Quick row: bare brand icons, the shortest route to the usual channels. -->
+            <div class="quick" role="group" aria-label="Quick links">
+                <a class="quick-link" href="https://wa.me/fahim.ahmed07" target="_blank" rel="noopener noreferrer"
+                    data-icon="whatsapp" aria-label="WhatsApp" title="WhatsApp">
+                    <span class="link-mark" aria-hidden="true"></span>
+                </a>
+                <a class="quick-link" href="https://www.linkedin.com/in/fahim-ahmed05/" target="_blank"
+                    rel="noopener noreferrer" data-icon="linkedin" aria-label="LinkedIn" title="LinkedIn">
+                    <span class="link-mark" aria-hidden="true"></span>
+                </a>
+                <a class="quick-link" href="https://bsky.app/profile/fahim-ahmed.bsky.social" target="_blank"
+                    rel="noopener noreferrer" data-icon="bluesky" aria-label="Bluesky" title="Bluesky">
+                    <span class="link-mark" aria-hidden="true"></span>
+                </a>
+                <!-- TODO: point this at your real signal.me link (it needs your number or username). -->
+                <a class="quick-link" href="https://signal.me/" target="_blank" rel="noopener noreferrer"
+                    data-icon="signal" aria-label="Signal" title="Signal">
+                    <span class="link-mark" aria-hidden="true"></span>
+                </a>
+                <a class="quick-link" href="mailto:fahim.ahmed1453@gmail.com" data-icon="gmail" aria-label="Email"
+                    title="Email">
+                    <span class="link-mark" aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <a rel="me" href="https://mastodon.social/@fahim_ahmed" class="sr-only">Mastodon profile
+                verification</a>
+        </header>
+
+        <!-- =================================================================
+             Links. Adding one = copy an <li class="item"> block.
+             data-icon      -> brand mask + hover tint (register it in main.css)
+             omit data-icon -> use an inline sprite icon via .link-mark
+             data-copy="v"  -> renders an in-card copy button for value v
+             More than 4 cards in a section folds itself behind "Show all".
+             .group-body wraps the list plus that button: closing a section
+             slides one box, so the button leaves with the cards, not after them.
+             ================================================================= -->
+        <nav class="links" id="links" aria-label="Profile links">
+
+            <!-- ---------------------------- Connect ---------------------------- -->
+            <section class="group" data-group="Connect">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-users"></use>
+                        </svg>
+                        <span>Connect</span>
+                        <span class="group-count">9</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                    <button type="button" class="group-toggle" aria-expanded="true" aria-controls="list-connect">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                        <span class="sr-only">Toggle the Connect section</span>
+                    </button>
+                </header>
+
+                <div class="group-body">
+                    <ul class="list" id="list-connect">
+                        <li class="item">
+                            <div class="link is-value" data-icon="discord" data-copy="fahim.ahmed05"
+                                data-copy-label="Discord handle">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Discord</span>
+                                    <span class="link-sub">fahim.ahmed05</span>
+                                </span>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://mastodon.social/@fahim_ahmed" target="_blank"
+                                rel="noopener me" data-icon="mastodon">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Mastodon</span>
+                                    <span class="link-sub">fahim_ahmed@mastodon.social</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://t.me/fahim_ahmed02" target="_blank" rel="noopener noreferrer"
+                                data-icon="telegram">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Telegram</span>
+                                    <span class="link-sub">fahim_ahmed02</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://m.me/fahim.ahmed09" target="_blank" rel="noopener noreferrer"
+                                data-icon="messenger">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Messenger</span>
+                                    <span class="link-sub">fahim.ahmed09</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://facebook.com/fahim.ahmed09" target="_blank"
+                                rel="noopener noreferrer" data-icon="facebook">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Facebook</span>
+                                    <span class="link-sub">fahim.ahmed09</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://www.threads.com/@fahim.ahmed08" target="_blank"
+                                rel="noopener noreferrer" data-icon="threads">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Threads</span>
+                                    <span class="link-sub">fahim.ahmed08</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://www.instagram.com/fahim.ahmed08" target="_blank"
+                                rel="noopener noreferrer" data-icon="instagram">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Instagram</span>
+                                    <span class="link-sub">fahim.ahmed08</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://x.com/fahim_ahmed05" target="_blank" rel="noopener noreferrer"
+                                data-icon="x">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">X</span>
+                                    <span class="link-sub">fahim_ahmed05</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://www.youtube.com/@fahim-ahmed05" target="_blank"
+                                rel="noopener noreferrer" data-icon="youtube">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">YouTube</span>
+                                    <span class="link-sub">fahim-ahmed05</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="more pill-btn" data-more>
+                        <span class="more-text">Show all</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ----------------------------- Code ------------------------------ -->
+            <section class="group" data-group="Code">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-code"></use>
+                        </svg>
+                        <span>Code</span>
+                        <span class="group-count">3</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                    <button type="button" class="group-toggle" aria-expanded="true" aria-controls="list-code">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                        <span class="sr-only">Toggle the Code section</span>
+                    </button>
+                </header>
+
+                <div class="group-body">
+                    <ul class="list" id="list-code">
+                        <li class="item">
+                            <a class="link" href="https://github.com/fahim-ahmed05" target="_blank"
+                                rel="noopener noreferrer" data-icon="github">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">GitHub</span>
+                                    <span class="link-sub">fahim-ahmed05</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://gitlab.com/fahim-ahmed05" target="_blank"
+                                rel="noopener noreferrer" data-icon="gitlab">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">GitLab</span>
+                                    <span class="link-sub">fahim-ahmed05</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://codeberg.org/fahim-ahmed" target="_blank"
+                                rel="noopener noreferrer" data-icon="codeberg">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Codeberg</span>
+                                    <span class="link-sub">fahim-ahmed</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="more pill-btn" data-more>
+                        <span class="more-text">Show all</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ----------------------------- Blog ------------------------------ -->
+            <section class="group" data-group="Blog">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-book"></use>
+                        </svg>
+                        <span>Blog</span>
+                        <span class="group-count">2</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                    <button type="button" class="group-toggle" aria-expanded="true" aria-controls="list-blog">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                        <span class="sr-only">Toggle the Blog section</span>
+                    </button>
+                </header>
+
+                <div class="group-body">
+                    <ul class="list" id="list-blog">
+                        <li class="item">
+                            <a class="link" href="https://medium.com/@fahim-ahmed" target="_blank"
+                                rel="noopener noreferrer" data-icon="medium">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Medium</span>
+                                    <span class="link-sub">fahim-ahmed</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://fahimahmed05.substack.com" target="_blank"
+                                rel="noopener noreferrer" data-icon="substack">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Substack</span>
+                                    <span class="link-sub">fahimahmed05</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="more pill-btn" data-more>
+                        <span class="more-text">Show all</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ---------------------------- Donate ----------------------------- -->
+            <section class="group" data-group="Donate">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-heart"></use>
+                        </svg>
+                        <span>Donate</span>
+                        <span class="group-count">3</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                    <button type="button" class="group-toggle" aria-expanded="true" aria-controls="list-donate">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                        <span class="sr-only">Toggle the Donate section</span>
+                    </button>
+                </header>
+
+                <div class="group-body">
+                    <ul class="list" id="list-donate">
+                        <li class="item">
+                            <a class="link" href="https://www.patreon.com/cw/fahim_ahmed/membership" target="_blank"
+                                rel="noopener noreferrer" data-icon="patreon">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Patreon</span>
+                                    <span class="link-sub">fahim_ahmed</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a class="link" href="https://pathaopay.me/@fahim.ahmed" target="_blank"
+                                rel="noopener noreferrer" data-icon="pathao">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Pathao Pay</span>
+                                    <span class="link-sub">fahim.ahmed</span>
+                                </span>
+                                <svg class="icon link-trail" aria-hidden="true">
+                                    <use href="#i-arrow-out"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <div class="link is-value" data-icon="skrill" data-copy="fahim.ahmed1453@gmail.com"
+                                data-copy-label="Email">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Skrill</span>
+                                    <span class="link-sub">fahim.ahmed1453@gmail.com</span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="more pill-btn" data-more>
+                        <span class="more-text">Show all</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-chevron"></use>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+        </nav>
+
+        <footer class="foot">
+            <p>© <span data-year>2026</span> Fahim Ahmed · Dhaka, Bangladesh</p>
+            <p class="foot-note">Hand-built with plain HTML, CSS and a little JavaScript.</p>
+            <a class="totop pill-btn" href="#top">
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow-up"></use>
+                </svg>Back to top
+            </a>
+        </footer>
+    </main>
+
+    <div class="toast" role="status" aria-live="polite" hidden>
+        <svg class="icon" aria-hidden="true">
+            <use href="#i-check"></use>
+        </svg>
+        <span class="toast-text"></span>
+    </div>
+
+    <!-- ============================ Share dialog ============================
+         Two QR codes: one holds the URL (needs a connection), the other holds
+         a plain-text card that any scanner reads with no network at all.
+         ==================================================================== -->
+    <dialog class="share-modal" id="share-modal" aria-labelledby="share-title">
+        <div class="share-inner">
+            <header class="share-head">
+                <h2 class="share-title" id="share-title">Share</h2>
+                <button type="button" class="group-toggle" data-share-close aria-label="Close">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-x"></use>
+                    </svg>
+                </button>
+            </header>
+
+            <div class="share-tabs" data-active="0" role="group" aria-label="QR code type">
+                <span class="tabs-thumb" aria-hidden="true"></span>
+                <button type="button" data-share-tab="online" aria-pressed="true">Online</button>
+                <button type="button" data-share-tab="offline" aria-pressed="false">Offline</button>
+            </div>
+
+            <div class="qr-plate">
+                <canvas class="qr-canvas" id="qr-canvas" role="img"
+                    aria-label="QR code of the selected payload"></canvas>
+            </div>
+
+            <div class="share-actions">
+                <button type="button" class="pill-btn" data-share-copy>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-copy"></use>
+                    </svg>
+                    <!-- three stacked labels: the button is as wide as the
+                         longest state from the start, so nothing reflows -->
+                    <span class="copy-label">
+                        <span data-state="idle">Copy</span>
+                        <span data-state="done">Copied</span>
+                        <span data-state="fail">Ctrl+C</span>
+                    </span>
+                </button>
+                <a class="pill-btn" download="fahim-ahmed-qr.png" data-share-save>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-download"></use>
+                    </svg><span>Save</span>
+                </a>
+                <button type="button" class="pill-btn" data-share-native hidden>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-share"></use>
+                    </svg><span>Share</span>
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="assets/js/qr.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "3a020b6ff0b54efe946295b668281719"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 
 </html>
