@@ -254,7 +254,7 @@ html {
 .group-toggle,
 .copy-btn,
 .theme-switch,
-.share-tabs,
+.qr-tabs,
 .totop,
 .avatar,
 .group-head {
@@ -269,7 +269,7 @@ html {
 .rule,
 .quick,
 .theme-switch,
-.share-tabs,
+.qr-tabs,
 .pill-btn,
 .group-toggle,
 .copy-btn {
@@ -1399,8 +1399,13 @@ html {
 
 /* --------------------------------------------------------------------------
    13. Share dialog
+   Named qr-* rather than share-* on purpose. Fanboy's Annoyances ships generic,
+   site-wide cosmetic filters for ##.share-inner, ##.share-head and
+   ##.share-title, so uBlock Origin hides the dialog's own contents and it
+   collapses to an empty border. Keep this family off the word "share" in class
+   names; the data-share* attributes are matched by no list rule and are safe.
    -------------------------------------------------------------------------- */
-.share-modal {
+.qr-sheet {
     /* Pinned to the viewport and centred with inset + auto margins. It must
        never sit in the document flow: an in-flow dialog makes the page taller
        after load, which is what knocked the browser's scroll restoration out. */
@@ -1424,7 +1429,7 @@ html {
 /* An author `display` rule beats the UA's `dialog:not([open]) { display: none }`,
    so the display declaration has to be gated on [open] or a closed dialog
    renders in the page. */
-dialog.share-modal[open] {
+dialog.qr-sheet[open] {
     display: grid;
     animation: pop .26s var(--ease) both;
 }
@@ -1441,7 +1446,7 @@ dialog.share-modal[open] {
     }
 }
 
-.share-modal::backdrop {
+.qr-sheet::backdrop {
     background: rgba(6, 8, 14, .45);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
@@ -1461,11 +1466,11 @@ dialog.share-modal[open] {
 /* Closing has to be driven by a class: the instant the dialog element closes,
    the UA hides it, and an animation cannot run on a hidden element. app.js
    plays this for 200ms before calling close(). */
-.share-modal[open].is-closing {
+.qr-sheet[open].is-closing {
     animation: vanish .2s var(--ease) both;
 }
 
-.share-modal[open].is-closing::backdrop {
+.qr-sheet[open].is-closing::backdrop {
     animation: vanish-backdrop .2s var(--ease) both;
 }
 
@@ -1482,25 +1487,25 @@ dialog.share-modal[open] {
     }
 }
 
-.share-inner {
+.qr-body {
     display: grid;
     gap: .8rem;
     padding: clamp(.9rem, 4vw, 1.25rem);
 }
 
-.share-head {
+.qr-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: .6rem;
 }
 
-.share-title {
+.qr-title {
     font-size: 1.1rem;
 }
 
 /* segmented slider, same language as the theme switch */
-.share-tabs {
+.qr-tabs {
     position: relative;
     display: grid;
     grid-auto-flow: column;
@@ -1515,7 +1520,7 @@ dialog.share-modal[open] {
     box-shadow: var(--micro);
 }
 
-.share-tabs>button {
+.qr-tabs>button {
     position: relative;
     z-index: 1;
     padding: .42rem .6rem;
@@ -1526,7 +1531,7 @@ dialog.share-modal[open] {
     transition: color var(--dur) var(--ease);
 }
 
-.share-tabs>button[aria-pressed="true"] {
+.qr-tabs>button[aria-pressed="true"] {
     color: var(--accent-text);
 }
 
@@ -1542,7 +1547,7 @@ dialog.share-modal[open] {
     transition: translate var(--dur) var(--ease);
 }
 
-.share-tabs[data-active="1"] .tabs-thumb {
+.qr-tabs[data-active="1"] .tabs-thumb {
     translate: calc(100% + 2px) 0;
 }
 
@@ -1566,13 +1571,13 @@ dialog.share-modal[open] {
     image-rendering: pixelated;
 }
 
-.share-actions {
+.qr-actions {
     display: flex;
     flex-wrap: wrap;
     gap: .45rem;
 }
 
-.share-actions .pill-btn {
+.qr-actions .pill-btn {
     flex: 1 1 auto;
     justify-content: center;
 }
@@ -1587,7 +1592,7 @@ dialog.share-modal[open] {
     .pill-btn,
     .theme-switch,
     .theme-thumb,
-    .share-modal,
+    .qr-sheet,
     .toast {
         background-color: var(--card-fill-hover);
     }
@@ -1637,11 +1642,11 @@ dialog.share-modal[open] {
         transform: none;
     }
 
-    .share-tabs>button:hover {
+    .qr-tabs>button:hover {
         color: var(--faint);
     }
 
-    .share-tabs>button[aria-pressed="true"] {
+    .qr-tabs>button[aria-pressed="true"] {
         color: var(--accent-text);
     }
 

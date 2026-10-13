@@ -382,12 +382,14 @@
 
     /* The offline card carries a curated set of channels rather than every
        link, so the symbol stays low-version and easy to focus a camera on.
-       Keep the whole block under the 271-byte level-L budget. */
+       Keep the whole block under the 271-byte level-L budget - Signal is listed
+       as a username to copy, because its 86-character share link would take the
+       payload to 328 bytes on its own and past what version 10 holds. */
     var OFFLINE_TEXT = [
         'Fahim Ahmed',
         'fahim-ahmed05.github.io',
         'Email: fahim.ahmed1453@gmail.com',
-        'Signal: via Email',
+        'Signal: fahim.03',
         'WhatsApp: wa.me/fahim.ahmed07',
         'Messenger: m.me/fahim.ahmed09',
         'GitHub: github.com/fahim-ahmed05',
@@ -434,9 +436,9 @@
 
     var Share = {
         mode: 'online',
-        dialog: document.querySelector('#share-modal'),
+        dialog: document.querySelector('#qr-sheet'),
         canvas: document.getElementById('qr-canvas'),
-        tabs: document.querySelector('.share-tabs'),
+        tabs: document.querySelector('.qr-tabs'),
         save: document.querySelector('[data-share-save]'),
         current: '',
 

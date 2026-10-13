@@ -150,7 +150,7 @@
                     </svg><span class="theme-label">Auto</span>
                 </button>
             </div>
-            <button type="button" class="pill-btn share" data-share>
+            <button type="button" class="pill-btn" data-share>
                 <svg class="icon" aria-hidden="true">
                     <use href="#i-share"></use>
                 </svg>
@@ -183,9 +183,9 @@
                     rel="noopener noreferrer" data-icon="bluesky" aria-label="Bluesky" title="Bluesky">
                     <span class="link-mark" aria-hidden="true"></span>
                 </a>
-                <!-- TODO: point this at your real signal.me link (it needs your number or username). -->
-                <a class="quick-link" href="https://signal.me/" target="_blank" rel="noopener noreferrer"
-                    data-icon="signal" aria-label="Signal" title="Signal">
+                <a class="quick-link"
+                    href="https://signal.me/#eu/iP9CkpN6ZfGljfSkTIP-BPhKBuknDFrtuLOxFmjHLOoVJOfIgiRGEb499WvBDj1H"
+                    target="_blank" rel="noopener noreferrer" data-icon="signal" aria-label="Signal" title="Signal">
                     <span class="link-mark" aria-hidden="true"></span>
                 </a>
                 <a class="quick-link" href="mailto:fahim.ahmed1453@gmail.com" data-icon="gmail" aria-label="Email"
@@ -217,7 +217,7 @@
                             <use href="#i-users"></use>
                         </svg>
                         <span>Connect</span>
-                        <span class="group-count">9</span>
+                        <span class="group-count">11</span>
                     </h2>
                     <span class="rule" aria-hidden="true"></span>
                     <button type="button" class="group-toggle" aria-expanded="true" aria-controls="list-connect">
@@ -343,6 +343,26 @@
                                     <use href="#i-arrow-out"></use>
                                 </svg>
                             </a>
+                        </li>
+                        <li class="item">
+                            <div class="link is-value" data-icon="signal" data-copy="fahim.03"
+                                data-copy-label="Signal username">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Signal</span>
+                                    <span class="link-sub">fahim.03</span>
+                                </span>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <div class="link is-value" data-icon="gmail" data-copy="fahim.ahmed1453@gmail.com"
+                                data-copy-label="Email">
+                                <span class="link-mark" aria-hidden="true"></span>
+                                <span class="link-body">
+                                    <span class="link-title">Email</span>
+                                    <span class="link-sub">fahim.ahmed1453@gmail.com</span>
+                                </span>
+                            </div>
                         </li>
                     </ul>
 
@@ -575,10 +595,10 @@
          Two QR codes: one holds the URL (needs a connection), the other holds
          a plain-text card that any scanner reads with no network at all.
          ==================================================================== -->
-    <dialog class="share-modal" id="share-modal" aria-labelledby="share-title">
-        <div class="share-inner">
-            <header class="share-head">
-                <h2 class="share-title" id="share-title">Share</h2>
+    <dialog class="qr-sheet" id="qr-sheet" aria-labelledby="qr-title">
+        <div class="qr-body">
+            <header class="qr-head">
+                <h2 class="qr-title" id="qr-title">Share</h2>
                 <button type="button" class="group-toggle" data-share-close aria-label="Close">
                     <svg class="icon" aria-hidden="true">
                         <use href="#i-x"></use>
@@ -586,7 +606,7 @@
                 </button>
             </header>
 
-            <div class="share-tabs" data-active="0" role="group" aria-label="QR code type">
+            <div class="qr-tabs" data-active="0" role="group" aria-label="QR code type">
                 <span class="tabs-thumb" aria-hidden="true"></span>
                 <button type="button" data-share-tab="online" aria-pressed="true">Online</button>
                 <button type="button" data-share-tab="offline" aria-pressed="false">Offline</button>
@@ -597,7 +617,7 @@
                     aria-label="QR code of the selected payload"></canvas>
             </div>
 
-            <div class="share-actions">
+            <div class="qr-actions">
                 <button type="button" class="pill-btn" data-share-copy>
                     <svg class="icon" aria-hidden="true">
                         <use href="#i-copy"></use>
