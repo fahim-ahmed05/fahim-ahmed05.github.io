@@ -59,7 +59,7 @@
     --blur: 20px;
     --dur: .28s;
     --ease: cubic-bezier(.22, .61, .36, 1);
-    --column: 47rem;
+    --column: 66rem;
 
     color-scheme: light;
 }
@@ -756,10 +756,21 @@ html {
     gap: var(--gap);
 }
 
-/* two panes side by side once there is room for them */
+/* Two panes side by side once there is room for them, three from 66rem. That
+   second step is measured, not aesthetic. A card spends 113px on its own padding,
+   icon tile and gaps, and the longest subtitle is fahim_ahmed@mastodon.social at
+   195px (fahim.ahmed1453@gmail.com is 183px), so a track has to be ~308px or the
+   handle ellipsises. Three tracks only clear that once the column is 1056px wide;
+   measured at 950px and 900px viewport the 3-column grid did clip both. */
 @media (min-width: 44rem) {
     .list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 66rem) {
+    .list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -778,21 +789,71 @@ html {
     margin-top: 2px;
 }
 
+/* The fold always ends on a complete row, so its threshold travels with the
+   column count: 6 cards is two rows of three, 4 cards is two rows of two or four
+   rows of one. :has() cannot read a custom property, so each band repeats the
+   pair, and each pair is confined to its own media range - otherwise the narrow
+   band's rule would still match at wide viewports and offer a button for a
+   section that has nothing to reveal. app.js only needs the smaller of the two. */
 @supports selector(:has(*)) {
 
-    /* Shown while the section is open, and also while it is sliding shut:
-       data-closing arrives with data-collapsed already set, so without the
-       second half of this pair the button leaves the flow on the first tick and
-       the section collapses around it - the pop this whole box exists to avoid. */
-    .js .group:not([data-collapsed="true"]):has(.list> :nth-child(5)) .more,
-    .js .group[data-closing="true"]:has(.list> :nth-child(5)) .more {
-        display: inline-flex;
+    /* one and two columns: fold after four cards */
+    @media (max-width: 65.99rem) {
+
+        /* Published for app.js: it needs the same number to work out where the
+           folded box ends, and this way the threshold lives in one place only. */
+        .group {
+            --fold: 4;
+        }
+
+        /* Shown while the section is open, and also while it is sliding shut:
+           data-closing arrives with data-collapsed already set, so without the
+           second half of this pair the button leaves the flow on the first tick
+           and the section collapses around it - the pop the wrapper exists to
+           avoid. */
+        .js .group:not([data-collapsed="true"]):has(.list> :nth-child(5)) .more,
+        .js .group[data-closing="true"]:has(.list> :nth-child(5)) .more {
+            display: inline-flex;
+        }
+
+        /* data-tail-out keeps the folded cards laid out for one last fade while
+           the box shrinks over the top of them. */
+        .js .group:not([data-expanded="true"]):not([data-tail-out="true"]) .list> :nth-child(n+5) {
+            display: none;
+        }
+
+        /* Longhands, not the transition shorthand: the stagger further down sets
+           transition-delay, and a shorthand would reset it to 0s. */
+        .group[data-tail-out="true"] .list> :nth-child(n+5)>* {
+            opacity: 0;
+            transition-property: opacity;
+            transition-duration: .14s;
+            transition-timing-function: var(--ease);
+        }
     }
 
-    /* EXTRA_AFTER is 4, mirrored in app.js. data-tail-out keeps the folded cards
-       laid out for one last fade while the box shrinks over the top of them. */
-    .js .group:not([data-expanded="true"]):not([data-tail-out="true"]) .list> :nth-child(n+5) {
-        display: none;
+    /* three columns: fold after six cards */
+    @media (min-width: 66rem) {
+
+        .group {
+            --fold: 6;
+        }
+
+        .js .group:not([data-collapsed="true"]):has(.list> :nth-child(7)) .more,
+        .js .group[data-closing="true"]:has(.list> :nth-child(7)) .more {
+            display: inline-flex;
+        }
+
+        .js .group:not([data-expanded="true"]):not([data-tail-out="true"]) .list> :nth-child(n+7) {
+            display: none;
+        }
+
+        .group[data-tail-out="true"] .list> :nth-child(n+7)>* {
+            opacity: 0;
+            transition-property: opacity;
+            transition-duration: .14s;
+            transition-timing-function: var(--ease);
+        }
     }
 }
 
@@ -800,17 +861,68 @@ html {
    out instead of being sheared off by the edge of the shrinking box, which is
    what read as "a line hiding the buttons". The opacity sits on the card, never
    on the .item - a glass card inside a translucent stacking context has no
-   backdrop left to blur, so it would flatten before it disappeared. */
-.group[data-tail-out="true"] .list> :nth-child(n+5),
+   backdrop left to blur, so it would flatten before it disappeared. Which cards
+   are folding is band-dependent, so that fade lives with the bands above; the
+   box is closing anyway, which makes the input guard cheap and universal. */
+.group[data-tail-out="true"] .list,
 .group[data-closing="true"] .list>.item {
     pointer-events: none;
 }
 
-.group[data-tail-out="true"] .list> :nth-child(n+5)>*,
 .group[data-closing="true"] .list>.item>*,
 .group[data-closing="true"] .more {
     opacity: 0;
-    transition: opacity .18s var(--ease);
+    transition-property: opacity;
+    transition-duration: .14s;
+    transition-timing-function: var(--ease);
+}
+
+/* And staggered, bottom card first, so leaving mirrors arriving rather than every
+   card blanking on the same tick. Capped, because the whole exit has to finish
+   inside the .26s the box takes to close: .12s of delay plus a .14s fade.
+   The two paths count from opposite ends on purpose. A folding tail sits at the
+   end of the list, so it is counted from the end. A closing section has to send
+   off every card on screen, and counting from the end would include the folded
+   ones that are already display:none - which stacks all the visible cards onto
+   the cap and leaves only the button with a ladder. */
+.group[data-tail-out="true"] .list> :nth-last-child(1)>* {
+    transition-delay: 0s;
+}
+
+.group[data-tail-out="true"] .list> :nth-last-child(2)>* {
+    transition-delay: calc(var(--step) * 1);
+}
+
+.group[data-tail-out="true"] .list> :nth-last-child(3)>* {
+    transition-delay: calc(var(--step) * 2);
+}
+
+.group[data-tail-out="true"] .list> :nth-last-child(4)>* {
+    transition-delay: calc(var(--step) * 3);
+}
+
+.group[data-tail-out="true"] .list> :nth-last-child(n+5)>* {
+    transition-delay: calc(var(--step) * 4);
+}
+
+.group[data-closing="true"] .list>.item:nth-child(1)>* {
+    transition-delay: calc(var(--step) * 4);
+}
+
+.group[data-closing="true"] .list>.item:nth-child(2)>* {
+    transition-delay: calc(var(--step) * 3);
+}
+
+.group[data-closing="true"] .list>.item:nth-child(3)>* {
+    transition-delay: calc(var(--step) * 2);
+}
+
+.group[data-closing="true"] .list>.item:nth-child(4)>* {
+    transition-delay: calc(var(--step) * 1);
+}
+
+.group[data-closing="true"] .list>.item:nth-child(n+5)>* {
+    transition-delay: 0s;
 }
 
 .more .icon {
@@ -1065,26 +1177,37 @@ html {
     }
 }
 
-/* `backwards`, not `both`: during the delay the element still shows the
-   from-state, so the wave looks identical - but once it is finished the opacity
-   is handed back to the normal cascade, which is what lets a later state rule
-   (a section sliding shut, say) fade the element instead of fighting a fill. */
-.js .actionbar,
-.js .profile,
-.js .group-head,
-.js .item,
-.js .more,
-.js .foot {
-    animation: enter .42s var(--ease) backwards;
+/* The wave only runs while <html> carries .wave, which the head script adds
+   solely when the document is actually being painted: a background tab never
+   advances its animation timeline, so the delay phase would leave it blank.
+   Two rules of construction here, both load-bearing:
+   - longhands, not the `animation` shorthand. The shorthand resets
+     animation-delay to 0s and, at this specificity, would wipe out the
+     .profile / .group-head / .more / .foot delays declared below.
+   - `backwards`, not `both`. The delay still shows the from-state, but once the
+     animation ends the element returns to the normal cascade, which is what lets
+     a later state rule (a section sliding shut, say) fade it instead of fighting
+     a fill. */
+.js.wave .actionbar,
+.js.wave .profile,
+.js.wave .group-head,
+.js.wave .item,
+.js.wave .more,
+.js.wave .foot {
+    animation-name: enter;
+    animation-duration: .42s;
+    animation-timing-function: var(--ease);
+    animation-fill-mode: backwards;
 }
 
 /* Rhythm: one stride per section, one smaller step per card. The stride must
-   exceed the widest in-section span (5 steps) or a card would fade in after
-   the heading below it - which is exactly what a fixed .13s stride did. */
+   exceed the widest in-section span (7 steps: six visible cards plus the reveal
+   button) or a card would fade in after the heading below it - which is exactly
+   what a fixed .13s stride did. */
 .js .page {
     --base: .12s;
-    --step: .04s;
-    --stride: .22s;
+    --step: .03s;
+    --stride: .26s;
     --g-last: 0;
 }
 
@@ -1146,38 +1269,54 @@ html {
     animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 4);
 }
 
-/* the folded tail is display:none at load, so this only matters once opened */
-.js .list> :nth-child(n+5) {
+.js .list> :nth-child(5) {
     animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 5);
+}
+
+.js .list> :nth-child(6) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 6);
+}
+
+/* the folded tail is display:none at load, so this only matters once opened */
+.js .list> :nth-child(n+7) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 7);
 }
 
 /* the reveal button arrives with its own cards instead of just appearing */
 .js .more {
-    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 5);
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 7);
 }
 
 /* The folded tail is display:none at load, so its usual entrance is a click.
-   app.js marks that moment with data-opening so the cards cascade from the
-   click itself; without the mark (a reload into a saved-open section) they
-   keep their place in the load wave, so delay order stays document order. */
-.group[data-opening="true"] .list> :nth-child(n+5) {
+   app.js marks that moment with data-opening so the cards cascade from the click
+   itself; without the mark (a reload into a saved-open section) they keep their
+   place in the load wave, so delay order stays document order. Keyed to absolute
+   positions rather than to the fold threshold, which differs per column band -
+   cards that are already shown do not restart, so their slot here is inert. */
+.group[data-opening="true"] .list> :nth-child(1),
+.group[data-opening="true"] .list> :nth-child(2),
+.group[data-opening="true"] .list> :nth-child(3) {
     animation-delay: 0s;
 }
 
-.group[data-opening="true"] .list> :nth-child(6) {
+.group[data-opening="true"] .list> :nth-child(4) {
     animation-delay: calc(var(--step) * 1);
 }
 
-.group[data-opening="true"] .list> :nth-child(7) {
+.group[data-opening="true"] .list> :nth-child(5) {
     animation-delay: calc(var(--step) * 2);
 }
 
-.group[data-opening="true"] .list> :nth-child(8) {
+.group[data-opening="true"] .list> :nth-child(6) {
     animation-delay: calc(var(--step) * 3);
 }
 
-.group[data-opening="true"] .list> :nth-child(n+9) {
+.group[data-opening="true"] .list> :nth-child(7) {
     animation-delay: calc(var(--step) * 4);
+}
+
+.group[data-opening="true"] .list> :nth-child(n+8) {
+    animation-delay: calc(var(--step) * 5);
 }
 
 /* A section coming back through the chevron: its body was out of the flow, so
@@ -1201,9 +1340,17 @@ html {
     animation-delay: calc(var(--step) * 3);
 }
 
-.group[data-reveal="true"] .list> :nth-child(n+5),
-.group[data-reveal="true"] .more {
+.group[data-reveal="true"] .list> :nth-child(5) {
     animation-delay: calc(var(--step) * 4);
+}
+
+.group[data-reveal="true"] .list> :nth-child(6) {
+    animation-delay: calc(var(--step) * 5);
+}
+
+.group[data-reveal="true"] .list> :nth-child(n+7),
+.group[data-reveal="true"] .more {
+    animation-delay: calc(var(--step) * 6);
 }
 
 .js .foot {

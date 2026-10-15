@@ -10,11 +10,21 @@
          opened straight from a README or a release note. -->
     <script>
         (function () {
+            var html = document.documentElement;
             var saved = null;
             try { saved = JSON.parse(localStorage.getItem('fa-theme') || 'null'); } catch (e) { /* storage blocked */ }
             var choice = (saved === 'light' || saved === 'dark') ? saved : null;
-            if (choice) document.documentElement.setAttribute('data-theme', choice);
-            document.documentElement.classList.add('js');
+            if (choice) html.setAttribute('data-theme', choice);
+            html.classList.add('js');
+            /* Wave only on a document that is being painted: a background tab would
+               otherwise sit at opacity 0 in the animation's delay phase. See the
+               longer note in index.html, which this mirrors. */
+            if (document.visibilityState !== 'hidden') html.classList.add('wave');
+            else document.addEventListener('visibilitychange', function onVisible() {
+                if (document.visibilityState === 'hidden') return;
+                document.removeEventListener('visibilitychange', onVisible);
+                html.classList.add('wave');
+            });
         })();
     </script>
 

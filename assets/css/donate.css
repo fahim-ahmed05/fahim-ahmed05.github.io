@@ -25,21 +25,9 @@
     justify-content: flex-end;
 }
 
-/* Three channels across, to match the notes row below. The column is wider than
-   the hub's 47rem because the Skrill card has to show a whole email address: that
-   text measures 183px, and the card needs ~298px of its own to hold it without
-   ellipsising. Three tracks only clear that from 62.5rem up, so the step is
-   measured, not guessed; below it main.css's two-column rule and, on phones, the
-   single-column default take over. */
-.page {
-    max-width: 62rem;
-}
-
-@media (min-width: 62.5rem) {
-    .block .list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
+/* The column width and the 1/2/3-step of .list now live in main.css, which the
+   hub and this page share, so both grids break to three tracks at the same
+   viewport and no card is measured twice. */
 
 /* main.css gives the footer its slot in the wave by counting .group sections,
    and this page has none, so --g-last stayed 0 and the footer faded in before
@@ -69,8 +57,11 @@
 /* The hub animates its profile block as one piece; this header was left out of
    that selector list, so it was the only part of the page snapping into
    existence. Same keyframe, same slot in the wave. */
-.js .pitch {
-    animation: enter .42s var(--ease) backwards;
+.js.wave .pitch {
+    animation-name: enter;
+    animation-duration: .42s;
+    animation-timing-function: var(--ease);
+    animation-fill-mode: backwards;
     animation-delay: calc(var(--base) / 2);
 }
 
@@ -122,7 +113,8 @@
 
 /* ------------------------------------------------------------------ notes */
 /* Notes step with the cards (1, then 2, then 3) so their column edges always
-   line up. auto-fit was cheaper but drifted: it put three notes over two cards. */
+   line up. The breakpoints must match main.css's .list steps exactly.
+   auto-fit was cheaper but drifted: it put three notes over two cards. */
 .notes {
     display: grid;
     gap: var(--gap);
@@ -135,7 +127,7 @@
     }
 }
 
-@media (min-width: 62.5rem) {
+@media (min-width: 66rem) {
     .notes {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -188,8 +180,13 @@
     box-shadow: var(--micro), 0 16px 26px -14px var(--shadow);
 }
 
-.js .note {
-    animation: enter .42s var(--ease) backwards;
+/* Longhands throughout, as in main.css: the animation shorthand would reset the
+   per-note delays declared above back to 0s. */
+.js.wave .note {
+    animation-name: enter;
+    animation-duration: .42s;
+    animation-timing-function: var(--ease);
+    animation-fill-mode: backwards;
 }
 
 .js .note:nth-child(1) {

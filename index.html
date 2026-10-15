@@ -8,11 +8,23 @@
     <!-- Theme must be resolved before the first paint so no flash of the wrong palette occurs. -->
     <script>
         (function () {
+            var html = document.documentElement;
             var saved = null;
             try { saved = JSON.parse(localStorage.getItem('fa-theme') || 'null'); } catch (e) { /* storage blocked */ }
             var choice = (saved === 'light' || saved === 'dark') ? saved : null;
-            if (choice) document.documentElement.setAttribute('data-theme', choice);
-            document.documentElement.classList.add('js');
+            if (choice) html.setAttribute('data-theme', choice);
+            html.classList.add('js');
+            /* The entrance wave only runs on a document that is actually being painted.
+               A tab opened in the background never advances its animation timeline, so
+               the wave would park every element at opacity 0 and blur(6px) until someone
+               looks at it - a page that looks broken and cannot recover. Play it on the
+               first reveal instead. */
+            if (document.visibilityState !== 'hidden') html.classList.add('wave');
+            else document.addEventListener('visibilitychange', function onVisible() {
+                if (document.visibilityState === 'hidden') return;
+                document.removeEventListener('visibilitychange', onVisible);
+                html.classList.add('wave');
+            });
         })();
     </script>
 
@@ -27,12 +39,12 @@
     <meta property="og:type" content="profile">
     <meta property="og:site_name" content="fahim-ahmed05.github.io">
     <meta property="og:title" content="Fahim Ahmed">
-    <meta property="og:description" content="CSE undergrad student. FOSS believer.">
+    <meta property="og:description" content="CSE undergrad student. FOSS contributor.">
     <meta property="og:url" content="https://fahim-ahmed05.github.io/">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Fahim Ahmed">
-    <meta name="twitter:description" content="CSE undergrad student. FOSS believer.">
+    <meta name="twitter:description" content="CSE undergrad student. FOSS contributor.">
 
     <link rel="canonical" href="https://fahim-ahmed05.github.io/">
     <!-- The PNG is for browsers that cannot render an SVG favicon; the ones that
@@ -167,7 +179,7 @@
 
             <h1 class="name">Fahim Ahmed</h1>
 
-            <p class="bio">CSE undergrad student. FOSS believer.</p>
+            <p class="bio">CSE undergrad student. FOSS contributor.</p>
 
             <!-- Quick row: bare brand icons, the shortest route to the usual channels. -->
             <div class="quick" role="group" aria-label="Quick links">
@@ -203,7 +215,7 @@
              data-icon      -> brand mask + hover tint (register it in main.css)
              omit data-icon -> use an inline sprite icon via .link-mark
              data-copy="v"  -> renders an in-card copy button for value v
-             More than 4 cards in a section folds itself behind "Show all".
+             More than 3 cards in a section folds itself behind "Show all".
              .group-body wraps the list plus that button: closing a section
              slides one box, so the button leaves with the cards, not after them.
              ================================================================= -->

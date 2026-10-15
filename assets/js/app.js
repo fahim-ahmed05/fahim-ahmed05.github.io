@@ -14,7 +14,11 @@
 
     var html = document.documentElement;
     var STORE = { theme: 'fa-theme', collapsed: 'fa-collapsed', expanded: 'fa-expanded' };
-    var EXTRA_AFTER = 4; /* cards shown before "Show all" appears; mirrored in main.css */
+    /* The fold ends on a complete row, and main.css sets that threshold per column
+       band: 4 cards up to two columns, 6 at three. The script only needs the
+       smaller, so a section that folds in one band has its button wired in every
+       band; the stylesheet decides when that button is actually displayed. */
+    var FOLD_MIN = 4;
 
     function read(key, fallback) {
         try {
@@ -213,7 +217,7 @@
             var badge = group.querySelector('.group-count');
             if (badge) badge.textContent = String(total);
 
-            if (more && total > EXTRA_AFTER) {
+            if (more && total > FOLD_MIN) {
                 var label = more.querySelector('.more-text');
                 more.setAttribute('aria-controls', list.id);
                 label.textContent = 'Show all ' + total;
@@ -245,11 +249,14 @@
 
                     /* The tail has to stay laid out to fade, so the fold rule gets a
                        data-tail-out exemption and the box shrinks over the top of it.
-                       The folded height is measured, not guessed: drop the state, read
-                       the box, put the tail back - so it is exactly what CSS lays out. */
+                       Both heights are read while everything is still rendered, and
+                       both attributes are set afterwards without a read in between:
+                       a layout flush taken while the tail is momentarily display:none
+                       leaves the browser no rendered before-state, and the fade then
+                       never starts - the cards would just blink off. */
                     var from = list.offsetHeight;
+                    var to = foldHeight(list);
                     group.removeAttribute('data-expanded');
-                    var to = list.offsetHeight;
                     group.dataset.tailOut = 'true';
                     slide(list, from, to, function () {
                         delete group.dataset.tailOut;
@@ -285,6 +292,17 @@
     function collapse(group, toggle, isCollapsed) {
         group.dataset.collapsed = String(isCollapsed);
         toggle.setAttribute('aria-expanded', String(!isCollapsed));
+    }
+
+    /* Height the list has once the tail is folded away: the bottom of the last
+       visible card, less the top of the list. main.css owns the threshold and
+       publishes it per column band as --fold, so the script never duplicates a
+       media query and never has to hide the cards to find out. */
+    function foldHeight(list) {
+        var kids = list.children;
+        var fold = parseInt(getComputedStyle(list).getPropertyValue('--fold'), 10);
+        if (!fold || kids.length <= fold) return list.offsetHeight;
+        return kids[fold - 1].getBoundingClientRect().bottom - list.getBoundingClientRect().top;
     }
 
     /* ----------------------------------------------------------------------
