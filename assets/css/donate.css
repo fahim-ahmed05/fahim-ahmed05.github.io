@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Donate page: layered on top of main.css, which already provides the
+   tokens, the ambient field, the glass recipe, the cards, the theme switch,
+   the toast and the entrance wave. Only what is specific to this page lives
+   here: the pitch, the project line, and the "good to know" notes.
+   ========================================================================== */
+
+/* app.js only wires collapse behaviour for .group sections, and a donate page
+   has nothing to collapse, so sections here are .block. --g keeps the shared
+   entrance stagger valid: the hub defines it per section, and without it the
+   delay calc() would fall back to zero for every card. */
+.block {
+    --g: 0;
+    display: grid;
+}
+
+/* One stride per section, so the shared entrance wave still walks down the page
+   instead of every block fading in on the same beat. */
+.js .block:nth-of-type(2) {
+    --g: 1;
+}
+
+/* This page has no share button, so the action row holds only the theme switch. */
+.actionbar {
+    justify-content: flex-end;
+}
+
+/* Three channels across, to match the notes row below. The column is wider than
+   the hub's 47rem because the Skrill card has to show a whole email address: that
+   text measures 183px, and the card needs ~298px of its own to hold it without
+   ellipsising. Three tracks only clear that from 62.5rem up, so the step is
+   measured, not guessed; below it main.css's two-column rule and, on phones, the
+   single-column default take over. */
+.page {
+    max-width: 62rem;
+}
+
+@media (min-width: 62.5rem) {
+    .block .list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* main.css gives the footer its slot in the wave by counting .group sections,
+   and this page has none, so --g-last stayed 0 and the footer faded in before
+   the notes above it. Derive the same value from the .block count instead, and
+   it keeps working if a third section is ever added. */
+.js .page:has(.block:nth-of-type(2)) {
+    --g-last: 1;
+}
+
+.js .page:has(.block:nth-of-type(3)) {
+    --g-last: 2;
+}
+
+/* ------------------------------------------------------------------ pitch */
+.pitch {
+    display: grid;
+    justify-items: start;
+    gap: .7rem;
+    padding-top: clamp(.4rem, 2vw, 1rem);
+}
+
+.pitch-h {
+    font-size: clamp(1.65rem, 6.5vw, 2.15rem);
+    letter-spacing: -.035em;
+}
+
+/* The hub animates its profile block as one piece; this header was left out of
+   that selector list, so it was the only part of the page snapping into
+   existence. Same keyframe, same slot in the wave. */
+.js .pitch {
+    animation: enter .42s var(--ease) backwards;
+    animation-delay: calc(var(--base) / 2);
+}
+
+.lede {
+    max-width: 36rem;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--muted);
+    text-wrap: pretty;
+}
+
+/* The one question a donate page has to answer before the ask: who is this
+   money going to. A strip rather than a copy of the hub's profile, so the page
+   stays about giving, and no links live here that the footer already owns. */
+.who {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    /* Only the identity line needs distance from the heading. A heading and its
+       own paragraph stay as tight as they were. */
+    margin-bottom: .55rem;
+}
+
+.who-img {
+    width: 4.1rem;
+    height: 4.1rem;
+    flex: none;
+    border: 1px solid var(--edge);
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--tile-fill);
+    box-shadow: var(--micro);
+}
+
+.who-name {
+    font-family: var(--font-display);
+    font-size: 1.06rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.3;
+    color: var(--text-strong);
+}
+
+.who-meta {
+    font-size: .82rem;
+    line-height: 1.4;
+    color: var(--faint);
+}
+
+/* ------------------------------------------------------------------ notes */
+/* Notes step with the cards (1, then 2, then 3) so their column edges always
+   line up. auto-fit was cheaper but drifted: it put three notes over two cards. */
+.notes {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 44rem) {
+    .notes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 62.5rem) {
+    .notes {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.note {
+    display: grid;
+    gap: .3rem;
+    padding: .95rem 1.05rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--r);
+    background-color: var(--card-fill);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+    backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.04);
+    box-shadow: var(--micro);
+    transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.note h3 {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: .9rem;
+    letter-spacing: -.01em;
+}
+
+.note h3>.icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--accent);
+}
+
+.note p {
+    font-size: .88rem;
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+}
+
+/* They look like the cards above them, so they behave like them too: the same
+   lift-and-brighten on hover, and the same fade-in on load. Without the
+   animation rule the notes were the only things on the page that snapped into
+   existence, which is what made this block read as dead. Delays follow the
+   hub's own rhythm so the wave still walks downward. */
+.note:hover {
+    transform: translateY(-3px);
+    background-color: var(--card-fill-hover);
+    border-color: var(--rim-top);
+    box-shadow: var(--micro), 0 16px 26px -14px var(--shadow);
+}
+
+.js .note {
+    animation: enter .42s var(--ease) backwards;
+}
+
+.js .note:nth-child(1) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 1);
+}
+
+.js .note:nth-child(2) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 2);
+}
+
+.js .note:nth-child(3) {
+    animation-delay: calc(var(--base) + var(--g) * var(--stride) + var(--step) * 3);
+}
+
+/* Touch screens keep the last tapped element in :hover; these are not buttons,
+   so there is nothing to leave highlighted after a tap. */
+@media (hover: none) {
+    .note:hover {
+        transform: none;
+        background-color: var(--card-fill);
+        border-color: var(--edge);
+        box-shadow: var(--micro);
+    }
+}
+
+/* ----------------------------------------------------------------- footer */
+.foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    margin-top: .7rem;
+}

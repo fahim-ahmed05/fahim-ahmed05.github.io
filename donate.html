@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Theme must be resolved before the first paint so no flash of the wrong palette occurs.
+         Duplicated from index.html on purpose: this page has to stand on its own when it is
+         opened straight from a README or a release note. -->
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = JSON.parse(localStorage.getItem('fa-theme') || 'null'); } catch (e) { /* storage blocked */ }
+            var choice = (saved === 'light' || saved === 'dark') ? saved : null;
+            if (choice) document.documentElement.setAttribute('data-theme', choice);
+            document.documentElement.classList.add('js');
+        })();
+    </script>
+
+    <title>Support the work</title>
+    <meta name="description"
+        content="Ways to support Fahim Ahmed's free and open-source tools: Patreon for monthly support, Pathao Pay in Bangladeshi taka, or Skrill from abroad.">
+    <meta name="author" content="Fahim Ahmed">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#dee3f2" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0e16" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="fahim-ahmed05.github.io">
+    <meta property="og:title" content="Support the work">
+    <meta property="og:description" content="Free tools, kept maintained. Patreon, Pathao Pay or Skrill.">
+    <meta property="og:url" content="https://fahim-ahmed05.github.io/donate.html">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Support the work">
+    <meta name="twitter:description" content="Free tools, kept maintained. Patreon, Pathao Pay or Skrill.">
+
+    <link rel="canonical" href="https://fahim-ahmed05.github.io/donate.html">
+    <!-- The PNG is for browsers that cannot render an SVG favicon; the ones that
+         can take the vector, which is declared last. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/donate.css">
+</head>
+
+<body>
+    <a class="skip-link" href="#channels">Skip to the ways to give</a>
+
+    <!-- Icon sprite: only the marks this page draws. Brand logos are masked from
+         a CDN through the [data-icon] registry in main.css. -->
+    <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="i-sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4.2" />
+            <path
+                d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </symbol>
+        <symbol id="i-monitor" viewBox="0 0 24 24">
+            <rect x="2.5" y="3.5" width="19" height="13.5" rx="2" />
+            <path d="M8.5 21h7M12 17v4" />
+        </symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24">
+            <path
+                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z" />
+        </symbol>
+        <symbol id="i-book" viewBox="0 0 24 24">
+            <path d="M2.5 3.5h5.7a4 4 0 0 1 4 4V21a3 3 0 0 0-3-3H2.5z" />
+            <path d="M21.5 3.5h-5.7a4 4 0 0 0-4 4V21a3 3 0 0 1 3-3h6.7z" />
+        </symbol>
+        <symbol id="i-code" viewBox="0 0 24 24">
+            <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+        </symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="12" height="12" rx="2.2" />
+            <path d="M5 15H4.2A1.7 1.7 0 0 1 2.5 13.3V4.7A1.7 1.7 0 0 1 4.2 3h8.6A1.7 1.7 0 0 1 14.5 4.7V5.5" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+            <path d="m20 6.5-11 11-5-5" />
+        </symbol>
+        <symbol id="i-arrow-out" viewBox="0 0 24 24">
+            <path d="M7 17 17 7" />
+            <path d="M8 7h9v9" />
+        </symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24">
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+        </symbol>
+        <symbol id="i-home" viewBox="0 0 24 24">
+            <path d="M3.5 10.5 12 3.5l8.5 7" />
+            <path d="M5.75 9.2V20a.8.8 0 0 0 .8.8h10.9a.8.8 0 0 0 .8-.8V9.2" />
+            <path d="M9.9 20.8v-6.3h4.2v6.3" />
+        </symbol>
+    </svg>
+
+    <!-- The colour the glass bends and tints. -->
+    <div class="ambient" aria-hidden="true">
+        <span class="glow glow-a"></span>
+        <span class="glow glow-b"></span>
+        <span class="glow glow-c"></span>
+        <span class="glow glow-d"></span>
+        <span class="grain"></span>
+    </div>
+
+    <main class="page" id="top">
+        <div class="actionbar">
+            <div class="theme-switch" data-active="2" role="group" aria-label="Colour theme">
+                <span class="theme-thumb" aria-hidden="true"></span>
+                <button type="button" data-theme-choice="light" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-sun"></use>
+                    </svg><span class="theme-label">Light</span>
+                </button>
+                <button type="button" data-theme-choice="dark" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-moon"></use>
+                    </svg><span class="theme-label">Dark</span>
+                </button>
+                <button type="button" data-theme-choice="auto" aria-pressed="true">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-monitor"></use>
+                    </svg><span class="theme-label">Auto</span>
+                </button>
+            </div>
+        </div>
+
+        <header class="pitch">
+            <!-- Who the money goes to. The hub carries the full profile; this page only has to
+                 answer that before the ask. Deliberately not a link: the footer owns the single
+                 route back to the hub. -->
+            <div class="who">
+                <img class="who-img" src="https://avatars.githubusercontent.com/u/143964714?v=4" alt="" width="66"
+                    height="66">
+                <div>
+                    <p class="who-name">Fahim Ahmed</p>
+                    <p class="who-meta">CSE undergraduate student · FOSS contributor</p>
+                </div>
+            </div>
+
+            <h1 class="pitch-h">Support the work</h1>
+            <p class="lede">
+                I build open-source tools: plugins, scripts and utilities you install once and
+                forget about. Your support buys the hours I spend keeping them that way.
+            </p>
+        </header>
+
+        <div class="links">
+
+            <!-- ============================ Channels ============================
+                 Adding one = copy an <li class="item"> block. data-icon registers the
+                 brand mask in main.css; data-copy turns a card into a copy button.
+                 ================================================================== -->
+            <section class="block" id="channels">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-heart"></use>
+                        </svg>
+                        <span>Ways to give</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                </header>
+
+                <ul class="list">
+                    <li class="item">
+                        <a class="link" href="https://www.patreon.com/cw/fahim_ahmed/membership" target="_blank"
+                            rel="noopener noreferrer" data-icon="patreon">
+                            <span class="link-mark" aria-hidden="true"></span>
+                            <span class="link-body">
+                                <span class="link-title">Patreon</span>
+                                <span class="link-sub">fahim_ahmed</span>
+                            </span>
+                            <svg class="icon link-trail" aria-hidden="true">
+                                <use href="#i-arrow-out"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a class="link" href="https://pathaopay.me/@fahim.ahmed" target="_blank"
+                            rel="noopener noreferrer" data-icon="pathao">
+                            <span class="link-mark" aria-hidden="true"></span>
+                            <span class="link-body">
+                                <span class="link-title">Pathao Pay</span>
+                                <span class="link-sub">fahim.ahmed</span>
+                            </span>
+                            <svg class="icon link-trail" aria-hidden="true">
+                                <use href="#i-arrow-out"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <div class="link is-value" data-icon="skrill" data-copy="fahim.ahmed1453@gmail.com"
+                            data-copy-label="Skrill email">
+                            <span class="link-mark" aria-hidden="true"></span>
+                            <span class="link-body">
+                                <span class="link-title">Skrill</span>
+                                <span class="link-sub">fahim.ahmed1453@gmail.com</span>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- ============================= Notes ============================== -->
+            <section class="block">
+                <header class="group-head">
+                    <h2 class="group-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-book"></use>
+                        </svg>
+                        <span>Good to know</span>
+                    </h2>
+                    <span class="rule" aria-hidden="true"></span>
+                </header>
+
+                <div class="notes">
+                    <div class="note">
+                        <h3>
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#i-heart"></use>
+                            </svg>
+                            Recurring
+                        </h3>
+                        <p>Patreon is the only option that keeps supporting a project month after month.
+                            Any tier, cancel whenever.</p>
+                    </div>
+                    <div class="note">
+                        <h3>
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#i-check"></use>
+                            </svg>
+                            One-off
+                        </h3>
+                        <p>Pathao Pay for payments in Bangladeshi taka, Skrill for transfers from outside
+                            the country. Send what a release was worth to you.</p>
+                    </div>
+                    <div class="note">
+                        <h3>
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#i-code"></use>
+                            </svg>
+                            No obligation
+                        </h3>
+                        <p>Everything stays free and open source either way. An issue report, a fix or a
+                            star in the repo is worth just as much.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="foot">
+            <p>© <span data-year>2026</span> Fahim Ahmed · Dhaka, Bangladesh</p>
+            <p class="foot-note">Hand-built with plain HTML, CSS and a little JavaScript.</p>
+            <div class="foot-links">
+                <a class="pill-btn" href="./">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-home"></use>
+                    </svg>Home
+                </a>
+                <a class="pill-btn" href="#top">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-arrow-up"></use>
+                    </svg>Back to top
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <div class="toast" role="status" aria-live="polite" hidden>
+        <svg class="icon" aria-hidden="true">
+            <use href="#i-check"></use>
+        </svg>
+        <span class="toast-text"></span>
+    </div>
+
+    <script src="assets/js/app.js" defer></script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "3a020b6ff0b54efe946295b668281719"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+
+</html>
